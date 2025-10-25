@@ -1,0 +1,82 @@
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Star, Search, CheckSquare, Heart, Calendar,ChevronRightIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import inter from "@/lib/font/Inter";
+
+
+
+
+interface prop{
+  index:string,
+  label : string
+}
+
+
+export default function PropertyDashboard() {
+  return (
+    <div className="flex flex-col h-screen bg-[#CDE4F9]">
+      {/* Header */}
+    
+   
+
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto px-4 py-3">
+    <h1 className={`text-2xl ${inter.className} font-bold text-gray-600 flex items-center`}>User Dashboard <ChevronRightIcon/></h1>
+        {/* City Selector */}
+        <div className="mb-4">
+          <label className="text-sm font-medium mb-1 block">Select City</label>
+          <Select>
+            <SelectTrigger className="bg-white w-full">
+              <SelectValue placeholder="Not selected" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="nagpur">Nagpur</SelectItem>
+              <SelectItem value="pune">Pune</SelectItem>
+              <SelectItem value="mumbai">Mumbai</SelectItem>
+              <SelectItem value="delhi">Delhi</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Property Image */}
+        <div className="rounded-2xl overflow-hidden shadow-md mb-4">
+          <Image
+            src="/image/image-2.jpg"
+            alt="Property"
+            width={400}
+            height={200}
+            className="w-full h-48 object-cover"
+          />
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-2 gap-4">
+          <Link href={"/dashboard/user/propertyai"} >
+          <FeatureCard icon={"spark"} label="AI Match Property" />
+          </Link>
+          <Link href={"/dashboard/user/find-property/filter-property"}> 
+          <FeatureCard icon={"Find"} label="Find Property" />
+          </Link>
+          <FeatureCard icon={"safe"} label="Verify your Property" />
+          <FeatureCard icon={"law"} label="Wishlist" />
+         
+        </div>
+      </div>
+
+      {/* Bottom Navbar */}
+     
+    </div>
+  );
+}
+
+function FeatureCard({ icon, label }:prop) {
+  return (
+    <div className="flex flex-col items-center justify-center bg-white rounded-2xl shadow-md py-6 hover:scale-105 transition-transform">
+    <img className="h-10" src={`/image/${icon}.png`} alt="" />
+      <p className="text-sm font-medium mt-2 text-center">{label}</p>
+    </div>
+  );
+}
