@@ -28,6 +28,7 @@ interface FormErrors {
 
 export default function LoginInForm() {
   const router = useRouter();
+    const BASEURL = process.env.NEXT_PUBLIC_API_URL
 
   const [formData, setFormData] = useState<FormData>({
     email: "",

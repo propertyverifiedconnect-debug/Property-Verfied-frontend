@@ -1,10 +1,11 @@
-import React ,{ JSX,useState} from "react";
+import React ,{ JSX,useState ,useEffect} from "react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Star, Search, CheckSquare, Heart, Calendar,ChevronRightIcon, UserCheck, User, Handshake } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Inter } from "next/font/google";
+import axios from "axios";
 
 
 const inter = Inter({
@@ -13,6 +14,18 @@ const inter = Inter({
 });
 
 export default function AdminDashboard() {
+  const  BASEURl =  process.env.NEXT_PUBLIC_API_URL
+  const [Count, setCount] = useState();
+
+   
+   useEffect(() => {
+  const fetchProperties = async () => {
+    const response = await axios.get(`${BASEURl}/api/partner/getAllProperties`);
+    setCount(response.data.count);
+  };
+  fetchProperties();
+}, []);
+ 
   return (
     <div className={`${inter.className} flex flex-col h-screen bg-[#CDE4F9]`}>
       {/* Header */}
@@ -42,7 +55,7 @@ export default function AdminDashboard() {
                     </h1>
              </div>
            <div className="h-20 w-1/2 flex items-center justify-center flex-col rounded-2xl bg-[#CDE4F9]">
-                   <h1 className="font-bold text-2xl text-gray-700">6</h1>
+                   <h1 className="font-bold text-2xl text-gray-700">{Count}</h1>
                    <h1>
                      Partner Pending
                     </h1>
@@ -56,7 +69,7 @@ export default function AdminDashboard() {
           <Link href={"/dashboard/user/propertyai"} >
           <FeatureCard index={0}  label=" User Pending Request" />
           </Link>
-          <Link href={"/dashboard/user/find-property/filter-property"}> 
+          <Link href={"/dashboard/admin/property-approval"}> 
           <FeatureCard index={1} label=" Partner Pending Request" />
           </Link>
         

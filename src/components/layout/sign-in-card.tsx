@@ -29,6 +29,9 @@ type FormData = {
 type Errors = Record<string, string>;
 
 export default function SignInForm(): JSX.Element {
+   
+   
+
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -41,6 +44,8 @@ export default function SignInForm(): JSX.Element {
   });
 
   const [errors, setErrors] = useState<Errors>({});
+  const BASEURL = process.env.NEXT_PUBLIC_API_URL
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target as HTMLInputElement;
@@ -69,7 +74,7 @@ export default function SignInForm(): JSX.Element {
     if (Object.keys(newErrors).length === 0) {
       try {
         const res = await axios.post<{ message: string }>(
-          "http://localhost:5000/api/auth/signup",
+          `${BASEURL}/api/auth/signup`,
           {
             name: formData.name,
             email: formData.email,

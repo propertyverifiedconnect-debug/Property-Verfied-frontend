@@ -10,6 +10,7 @@ export default function useRedirectByRole() {
 
   useEffect(() => {
     let isMounted = true;
+    
 
     const checkRole = async () => {
       try {
