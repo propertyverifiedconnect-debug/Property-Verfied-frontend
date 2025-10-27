@@ -1,8 +1,9 @@
-import { Heart, Link } from 'lucide-react'
+import { Heart } from 'lucide-react'
 import React from 'react'
 import { Button } from '../ui/button'
 import inter from '@/lib/font/Inter'
 import {motion} from "framer-motion" 
+import Link from 'next/link'
 
 function PropertyCards({property}) {
 
@@ -33,9 +34,12 @@ function PropertyCards({property}) {
                  ₹ {property.price}
               </span>
            
-              <button variant={"outline"} className={` ${inter.className} px-4 font-semibold   whitespace-nowrap p-1 mt-1 rounded-xl text-xs bg-white  `}>
+           <Link href={`/dashboard/admin/property-approval/property-approval-info/${property.id}`}>
+              <button  className={` ${inter.className} px-4 font-semibold   whitespace-nowrap p-1 mt-1 rounded-xl text-xs bg-white  `}>
                 Visit Lead 
               </button>
+           
+           </Link>
 
              </div>
             </div>

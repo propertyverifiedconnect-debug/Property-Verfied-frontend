@@ -7,6 +7,7 @@ import axios from "axios";
 export default function useRedirectByRole() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const BASEURL = process.env.NEXT_PUBLIC_API_URL
 
   useEffect(() => {
     let isMounted = true;
@@ -15,7 +16,7 @@ export default function useRedirectByRole() {
     const checkRole = async () => {
       try {
         if (!localStorage.getItem("userdata")) {
-          const res = await axios.get("http://localhost:5000/api/user/profile", {
+          const res = await axios.get(`${BASEURL}/api/user/profile`, {
             withCredentials: true,
           });
           console.log("Fetched user:", res.data);
