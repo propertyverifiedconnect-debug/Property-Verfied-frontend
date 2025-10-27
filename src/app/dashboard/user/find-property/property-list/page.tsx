@@ -137,34 +137,21 @@ const page = () => {
       </div>
 
       {/* Property Cards */}
-      <div className="flex flex-col gap-3 w-11/12 overflow-auto max-w-md">
-      {
-        properties ?
-        <>
-        {properties.map((prop) => (
-          <div key={prop.id} className=" rounded-2xl p-3 flex shadow-md items-center justify-center">
-             <PropertyCards property={prop}/>
-          
-             {/* <Link href={"/dashboard/user/find-property/property-list/proprerty-info"}>
-                 <button className="text-xs mt-1 p-2 whitespace-nowrap bg-white text-[#0080ff] font-medium px- 2 py-1 rounded-md shadow">
-                Book Visit
-              </button>
-             </Link> */}
-  
-            
-            
-            
-           
-        
-           
-          </div>
-        ))}
-        </>: 
-           
-           <Skeleton className="w-full h-20"/>
-        
-          }
-      </div>
+     <div className='h-full w-96 px-3.5 flex mt-2 flex-col gap-2'>
+          {properties.length > 0 ? (
+            properties.map((p, i) => (
+              <PropertyCards key={i} property={p} type="User" />
+            ))
+          ) : (
+            // Fallback: show a few placeholders or a message
+            <>
+            <div className='flex flex-col gap-1'>
+                 <Skeleton className='h-30 w-full' />
+                 <Skeleton className='h-30 w-full' />
+            </div>
+            </>
+          )}
+        </div>
 
       {/* Bottom Nav */}
        {/* <BottomNav/> */}

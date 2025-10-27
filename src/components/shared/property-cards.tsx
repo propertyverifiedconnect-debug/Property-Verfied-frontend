@@ -5,7 +5,7 @@ import inter from '@/lib/font/Inter'
 import {motion} from "framer-motion" 
 import Link from 'next/link'
 
-function PropertyCards({property}) {
+function PropertyCards({property,type}) {
 
   
   return (
@@ -34,12 +34,25 @@ function PropertyCards({property}) {
                  ₹ {property.price}
               </span>
            
+          {
+            type == 'User'
+            
+            ?
+            
+                <Link href={`/dashboard/user/find-property/property-list/proprerty-info/${property.id}`}>
+              <button  className={` ${inter.className} px-4 font-semibold   whitespace-nowrap p-1 mt-1 rounded-xl text-xs bg-white  `}>
+                 Book Visit
+              </button>
+           
+           </Link>
+            :
            <Link href={`/dashboard/admin/property-approval/property-approval-info/${property.id}`}>
               <button  className={` ${inter.className} px-4 font-semibold   whitespace-nowrap p-1 mt-1 rounded-xl text-xs bg-white  `}>
                 Visit Lead 
               </button>
            
            </Link>
+          }
 
              </div>
             </div>

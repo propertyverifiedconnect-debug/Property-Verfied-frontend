@@ -36,6 +36,10 @@ import { Inter } from "next/font/google";
 import Nav from "@/components/layout/nav";
 import { Badge } from "@/components/ui/badge";
 import GoogleIcon from "../../../../../../../public/icons/googleicon";
+import { useEffect} from "react";
+import axios from "axios";
+import { useParams } from "next/navigation";
+
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -43,6 +47,10 @@ const PropertyDetails = () => {
   const [visitType, setVisitType] = useState("home");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [timeSlot, setTimeSlot] = useState("");
+  const param = useParams();
+  const id = param.id
+  const [Propertydetails, setPropertydetails] = useState();
+  const BASEURl = process.env.NEXT_PUBLIC_API_URL
 
   const property = {
     title: "Elegant 2BHK Apartment",
@@ -60,12 +68,38 @@ const PropertyDetails = () => {
   };
 
   // API call (mock)
+
+
+
+    useEffect(() => {
+  const fetchProperties = async () => {
+    try {
+      const response = await axios.post(
+        `${BASEURl}/api/user/getApprovedPropertybyID`,
+        { id }, // body
+        { withCredentials: true } // config (3rd param)
+      );
+
+      setPropertydetails(response.data.properties)
+
+      console.log("Fetched property:", response.data);
+    } catch (error) {
+      console.error("Error fetching property:", error);
+    }
+  };
+
+  fetchProperties();
+}, [id]);
+  
+
+
+
   const handleBookingSubmit = async () => {
     const formData = {
       visitType,
       date: selectedDate,
       timeSlot,
-      propertyId: property.name,
+      // propertyId: property.name,
     };
 
     console.log("Booking Request:", formData);
@@ -83,6 +117,11 @@ const PropertyDetails = () => {
       alert("❌ Failed to book visit. Try again.");
     }
   };
+
+ 
+   
+
+
 
   return (
     <>
@@ -114,7 +153,7 @@ const PropertyDetails = () => {
         <div className="w-11/12 max-w-md mb-4">
           <div className="relative">
             <img
-              src="/image/image-1.jpg"
+           src={Propertydetails?.photos?.[0]}
               alt={property.title}
               className="w-full h-96 object-cover rounded-2xl shadow-md"
             />
@@ -134,7 +173,7 @@ const PropertyDetails = () => {
                <h1
             className={`${inter.className} font-bold text-gray-700 text-2xl flex items-center gap-1`}
           >
-            {property.title}
+            {Propertydetails?.property_kind}
           </h1>
           <br />
             <p><strong>Property Name</strong><br /> {property.name}</p>
