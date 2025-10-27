@@ -1,10 +1,14 @@
-import React from "react";
+"use client"
+import React  ,{useState , useEffect}from "react";
 import { Search, ChevronDown, ChevronRight,Heart, Home, ShoppingBag, ArrowBigLeft, ArrowLeft } from "lucide-react";
 import Nav from "@/components/layout/nav";
 import BottomNav from "@/components/shared/bottom-nav";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Inter } from "next/font/google";
+import axios from "axios";
+import PropertyCards from "@/components/shared/property-cards";
+import { Skeleton } from "@/components/ui/skeleton";
 
 
 
@@ -14,52 +18,78 @@ const inter = Inter({
 });
 
 const page = () => {
-  const properties = [
-    {
-      id: 1,
-      name: "Mahalakshmi 41",
-      location: "Nagpur, Maharashtra",
-      type: "Commercial",
-      config: "3BHK, 1500 sq.ft",
-      price: "₹25 Lakh – ₹40 Lakh",
-      img: "/image/image-1.jpg",
-    },
-    {
-      id: 2,
-      name: "Mahalakshmi 41",
-      location: "Nagpur, Maharashtra",
-      type: "Commercial",
-      config: "3BHK, 1500 sq.ft",
-      price: "₹25 Lakh – ₹40 Lakh",
-      img: "/image/image-1.jpg",
-    },
-    {
-      id: 3,
-      name: "Mahalakshmi 41",
-      location: "Nagpur, Maharashtra",
-      type: "Commercial",
-      config: "3BHK, 1500 sq.ft",
-      price: "₹25 Lakh – ₹40 Lakh",
-      img: "/image/image-1.jpg",
-    },
-    {
-      id: 3,
-      name: "Mahalakshmi 41",
-      location: "Nagpur, Maharashtra",
-      type: "Commercial",
-      config: "3BHK, 1500 sq.ft",
-      price: "₹25 Lakh – ₹40 Lakh",
-      img: "/image/image-1.jpg",
-    },{
-      id: 3,
-      name: "Mahalakshmi 41",
-      location: "Nagpur, Maharashtra",
-      type: "Commercial",
-      config: "3BHK, 1500 sq.ft",
-      price: "₹25 Lakh – ₹40 Lakh",
-      img: "/image/image-1.jpg",
-    },
-  ];
+  // const properties = [
+  //   {
+  //     id: 1,
+  //     name: "Mahalakshmi 41",
+  //     location: "Nagpur, Maharashtra",
+  //     type: "Commercial",
+  //     config: "3BHK, 1500 sq.ft",
+  //     price: "₹25 Lakh – ₹40 Lakh",
+  //     img: "/image/image-1.jpg",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Mahalakshmi 41",
+  //     location: "Nagpur, Maharashtra",
+  //     type: "Commercial",
+  //     config: "3BHK, 1500 sq.ft",
+  //     price: "₹25 Lakh – ₹40 Lakh",
+  //     img: "/image/image-1.jpg",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Mahalakshmi 41",
+  //     location: "Nagpur, Maharashtra",
+  //     type: "Commercial",
+  //     config: "3BHK, 1500 sq.ft",
+  //     price: "₹25 Lakh – ₹40 Lakh",
+  //     img: "/image/image-1.jpg",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Mahalakshmi 41",
+  //     location: "Nagpur, Maharashtra",
+  //     type: "Commercial",
+  //     config: "3BHK, 1500 sq.ft",
+  //     price: "₹25 Lakh – ₹40 Lakh",
+  //     img: "/image/image-1.jpg",
+  //   },{
+  //     id: 3,
+  //     name: "Mahalakshmi 41",
+  //     location: "Nagpur, Maharashtra",
+  //     type: "Commercial",
+  //     config: "3BHK, 1500 sq.ft",
+  //     price: "₹25 Lakh – ₹40 Lakh",
+  //     img: "/image/image-1.jpg",
+  //   },
+  // ];
+
+ const BASE_URL = process.env.NEXT_PUBLIC_API_URL || ''
+
+  const [properties, setProperties] = useState<any[]>([]);  
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/user/getAllApprovedProperty`);
+        // Set properties from response; adapt the path to your API shape if needed
+        setProperties(response.data.properties ?? response.data ?? []);
+        
+      } catch (err) {
+        console.error('Failed to fetch properties', err);
+        setProperties([]);
+      }
+    };
+    fetchProperties();
+    
+  }, []);
+
+  useEffect(()=>{
+    console.log(properties)
+  })
+
+
 
   return (
     <>
@@ -108,38 +138,20 @@ const page = () => {
 
       {/* Property Cards */}
       <div className="flex flex-col gap-3 w-11/12 overflow-auto max-w-md">
+      {
+        properties ?
+        <>
         {properties.map((prop) => (
-          <div key={prop.id} className="bg-[#A5D2F2] rounded-2xl p-3 flex shadow-md items-center justify-center">
-            <img
-              src={prop.img}
-              alt={prop.name}
-              className="w-25 h-25 rounded-lg object-cover"
-            />
-            <div className="flex-1 px-3">
-                <div className="flex items-start justify-between">
-                    <div>
-              <h3 className="font-semibold text-gray-800">{prop.name}</h3>
-              <p className="text-xs text-gray-700">
-                {prop.location} <br /> {prop.type}
-              </p>
-              <p className="text-xs text-gray-600 mt-1">{prop.config}</p>
-
-                    </div>
-                <Heart size={18} className="text-[#0080ff] cursor-pointer" />
-
-                </div>
-             <div className="flex justify-start items-center gap-3">
-              <span className="inline-block mt-1 whitespace-nowrap bg-white text-xs font-semibold px-2 py-1 rounded-lg">
-                {prop.price}
-              </span>
-             <Link href={"/dashboard/user/find-property/property-list/proprerty-info"}>
+          <div key={prop.id} className=" rounded-2xl p-3 flex shadow-md items-center justify-center">
+             <PropertyCards property={prop}/>
+          
+             {/* <Link href={"/dashboard/user/find-property/property-list/proprerty-info"}>
                  <button className="text-xs mt-1 p-2 whitespace-nowrap bg-white text-[#0080ff] font-medium px- 2 py-1 rounded-md shadow">
                 Book Visit
               </button>
-             </Link>
-
-             </div>
-            </div>
+             </Link> */}
+  
+            
             
             
            
@@ -147,6 +159,11 @@ const page = () => {
            
           </div>
         ))}
+        </>: 
+           
+           <Skeleton className="w-full h-20"/>
+        
+          }
       </div>
 
       {/* Bottom Nav */}

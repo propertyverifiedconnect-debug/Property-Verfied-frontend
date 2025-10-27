@@ -18,10 +18,10 @@ function PropertyCards({property}) {
             <div className="flex-1 px-3">
                 <div className="flex items-start justify-between">
                     <div>
-              <h3 className="font-semibold text-gray-800">{property.location}</h3>
+              <h3 className="font-semibold text-gray-800">{property.property_type}</h3>
               <p className="text-xs text-gray-700 gap-2">
                 {property.property_kind} <br /> 
-                <span  >{property.property_type}</span>
+                <span  >{property.location}</span>
               </p>
               <p className="text-xs text-gray-600 mt-1">{property.config}</p>
 

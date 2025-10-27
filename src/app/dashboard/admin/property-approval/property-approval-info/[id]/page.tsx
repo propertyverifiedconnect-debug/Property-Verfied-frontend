@@ -41,6 +41,7 @@ import { Badge } from "@/components/ui/badge";
 import GoogleIcon from "../../../../../../../public/icons/googleicon";
 import { Skeleton } from "@/components/ui/skeleton";
 import {motion} from "framer-motion"
+import { useRouter } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -50,6 +51,7 @@ const page = () => {
   const Param = useParams();
   const BASEURl =  process.env.NEXT_PUBLIC_API_URL
     const id = Param.id
+    const router = useRouter();
   const [Propertydetails, setPropertydetails] = useState();
 
 
@@ -97,6 +99,26 @@ useEffect(()=>{
 },[Propertydetails])
 
 
+const SetPropertyToApproval = async()=>{
+
+
+   
+    try {
+      const response = await axios.post(
+        `${BASEURl}/api/partner/setPropertytoApproval`,
+        { id }, // body
+        { withCredentials: true } // config (3rd param)
+      );
+
+     alert(`Approved -  ${response.data}`)
+     router.push("/dashboard/admin")
+      
+    } catch (error) {
+      console.error("Error fetching property:", error);
+    }
+  
+
+}
 
 
   return (
@@ -119,10 +141,7 @@ useEffect(()=>{
 
        
 
-          <Heart
-            className="text-[#0080ff] hover:fill-[#0080ff] cursor-pointer transition"
-            size={22}
-          />
+        
         </div>
 
         {/* Image Section */}
@@ -157,11 +176,11 @@ useEffect(()=>{
                <h1
             className={`${inter.className} font-bold text-gray-700 text-2xl flex items-center gap-1`}
           >
-            {property.title}
+            {Propertydetails?.property_type || ""}
           </h1>
           <br />
-            <p><strong>Property Name</strong><br /> {property.name}</p>
-            <p><strong>Location</strong> <br /> {property.location}</p>
+            <p><strong>Property Name</strong><br /> {Propertydetails?.property_type}</p>
+            <p><strong>Location</strong> <br /> {Propertydetails?.location}</p>
             <p><strong>RERA Number</strong> <br /> {property.RERA}</p>
             <p>
               <strong>Size / Type / Price:</strong><br />
@@ -247,7 +266,14 @@ useEffect(()=>{
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md bg-white rounded-xl">
-            
+                   <div className={`${inter.className}`}>
+                    <h1 className="text-xl font-bold text-center ">Lead Approval </h1>
+                   <h1 className="p-2 text-center" >Do you want to approval the Lead  <strong>{Propertydetails?.location}</strong> form the partner <strong>{Propertydetails?.users.name}</strong></h1>
+                      <div className="w-full flex  items-center justify-center gap-10">
+                           
+                             <Button onClick={SetPropertyToApproval} variant={"selectdashed"} className="w-80 mt-3 hover:bg-white hover:border-2 hover:text-gray-500"> Approved the Lead</Button>
+                      </div>
+                   </div>
             </DialogContent>
           </Dialog>
         </div>
