@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Heart,
   ArrowLeft,
@@ -13,9 +13,12 @@ import {
   Shield,
   MapPin,
   Link2,
+  Divide,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useParams } from "next/navigation";
+import axios from "axios";
 import {
   Dialog,
   DialogContent,
@@ -31,29 +34,26 @@ import {
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Inter } from "next/font/google";
 import Nav from "@/components/layout/nav";
 import { Badge } from "@/components/ui/badge";
 import GoogleIcon from "../../../../../../../public/icons/googleicon";
-import { useEffect} from "react";
-import axios from "axios";
-import { useParams } from "next/navigation";
-
-
+import { Skeleton } from "@/components/ui/skeleton";
+import {motion} from "framer-motion"
+import { useRouter } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
-const PropertyDetails = () => {
-  const [visitType, setVisitType] = useState("home");
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [timeSlot, setTimeSlot] = useState("");
-  const param = useParams();
-  const id = param.id
+const page = () => {
+
+
+  const Param = useParams();
+  const BASEURl =  process.env.NEXT_PUBLIC_API_URL
+    const id = Param.id
+    const router = useRouter();
   const [Propertydetails, setPropertydetails] = useState();
-  const BASEURl = process.env.NEXT_PUBLIC_API_URL
-  const router = useRouter();
+
 
   const property = {
     title: "Elegant 2BHK Apartment",
@@ -70,20 +70,18 @@ const PropertyDetails = () => {
     contact: { whatsapp: "+91 9876543210" },
   };
 
-  // API call (mock)
 
-
-
-    useEffect(() => {
+ // eslint-disable-next-line react-hooks/rules-of-hooks
+ useEffect(() => {
   const fetchProperties = async () => {
     try {
       const response = await axios.post(
-        `${BASEURl}/api/user/getApprovedPropertybyID`,
+        `${BASEURl}/api/user/getBookingforApprovalbyID`,
         { id }, // body
         { withCredentials: true } // config (3rd param)
       );
 
-      setPropertydetails(response.data.properties)
+      setPropertydetails(response.data.booking)
 
       console.log("Fetched property:", response.data);
     } catch (error) {
@@ -93,46 +91,35 @@ const PropertyDetails = () => {
 
   fetchProperties();
 }, [id]);
+
+
+useEffect(()=>{
+   console.log(Propertydetails)
+   
+},[Propertydetails])
+
+
+const SetBookingToApproval = async()=>{
+
+
+   
+    try {
+      const response = await axios.post(
+        `${BASEURl}/api/user/setBookingtoApproval`,
+        { id }, // body
+        { withCredentials: true } // config (3rd param)
+      );
+
+     alert(`Approved -  ${response.data}`)
+     router.push("/dashboard/admin")
+      
+    } catch (error) {
+      console.error("Error fetching property:", error);
+    }
   
 
+}
 
-
-
-
-const handleBookingSubmit = async () => {
-  // Validation
-  if (!visitType || !selectedDate || !timeSlot) {
-    alert("❌ Please fill all fields");
-    return;
-  }
-
-  const formData = {
-    propertyid: id, // property UUID
-    visitType, // e.g., 'physical_visit' or 'virtual_tour'
-    date: selectedDate, // format: 'YYYY-MM-DD'
-    timeSlot, // format: 'HH:MM:SS' or 'HH:MM'
-  };
-
-  console.log("Booking Request:", formData);
-
-  try {
-    const { data } = await axios.post(`${BASEURl}/api/user/setApprovalBooking`, formData, {
-      headers: { 
-        "Content-Type": "application/json" 
-      },
-      withCredentials: true
-    });
-
-    alert("✅ Visit booked successfully!");
-    router.push("/dashboard/user")
-  
-    
-  } catch (error) {
-    console.error("Booking error:", error);
-    const errorMessage = error.response?.data?.error || error.message || "Failed to book visit";
-    alert(`❌ ${errorMessage}`);
-  }
-};
 
   return (
     <>
@@ -142,7 +129,7 @@ const handleBookingSubmit = async () => {
       >
         {/* Header */}
         <div className="w-11/12 max-w-md flex items-center justify-between mb-3">
-          <Link href="/dashboard/user/find-property/property-list">
+          <Link href="/dashboard/admin/booking-approval">
             <Button
               variant="ghost"
               size="icon"
@@ -154,20 +141,25 @@ const handleBookingSubmit = async () => {
 
        
 
-          <Heart
-            className="text-[#0080ff] hover:fill-[#0080ff] cursor-pointer transition"
-            size={22}
-          />
+        
         </div>
 
         {/* Image Section */}
         <div className="w-11/12 max-w-md mb-4">
           <div className="relative">
-            <img
-           src={Propertydetails?.photos?.[0]}
-              alt={property.title}
-              className="w-full h-96 object-cover rounded-2xl shadow-md"
-            />
+            { Propertydetails ?
+            <motion.div initial={{opacity:0}} animate={{opacity:1}}>
+              <img
+                src={Propertydetails?.approved_property_id.photos?.[0]}
+                alt={property.title}
+                className="w-full h-96 object-cover rounded-2xl shadow-md"
+              />
+            </motion.div>
+              
+               :
+              <Skeleton className="h-96 w-full"/>
+
+            }
             <div className="absolute bottom-2 flex items-center justify-center gap-2 left-2 bg-white/90 text-xs px-2 py-1 rounded-full shadow-sm font-medium">
               Verified Listing <CircleCheck size={16} />
             </div>
@@ -184,16 +176,28 @@ const handleBookingSubmit = async () => {
                <h1
             className={`${inter.className} font-bold text-gray-700 text-2xl flex items-center gap-1`}
           >
-            {Propertydetails?.property_kind}
+            {Propertydetails?.approved_property_id.property_type || ""}
           </h1>
           <br />
-            <p><strong>Property Name</strong><br /> {property.name}</p>
-            <p><strong>Location</strong> <br /> {property.location}</p>
+            <p><strong>Property Name</strong><br /> {Propertydetails?.approved_property_id.property_type}</p>
+            <p><strong>Location</strong> <br /> {Propertydetails?.approved_property_id.location}</p>
             <p><strong>RERA Number</strong> <br /> {property.RERA}</p>
             <p>
               <strong>Size / Type / Price:</strong><br />
               {property.size} | {property.type} | {property.price}
             </p>
+
+
+            <p>
+              <strong>Partner:</strong><br />
+              {Propertydetails?.approved_property_id.user_id.name}
+            </p>
+            
+            <p>
+              <strong>Booking by:</strong><br />
+              {Propertydetails?.user_id.name}
+            </p>
+
 
             {/* Highlights */}
             <div className="flex gap-2 flex-wrap mt-4">
@@ -270,72 +274,18 @@ const handleBookingSubmit = async () => {
           <Dialog>
             <DialogTrigger asChild>
               <Button className="flex-1 bg-[#2396C6] hover:bg-[#0062cc] text-white py-5 text-base rounded-xl font-medium shadow">
-                <Book /> Book Visit
+                <Book />Approve Booking
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md mt-5 bg-white rounded-xl">
-              <DialogHeader>
-                <DialogTitle className="text-[#007BFF]">
-                  Book a Property Visit
-                </DialogTitle>
-              </DialogHeader>
-
-              <div className="space-y-4 mt-2">
-                {/* Visit Type */}
-                <div>
-                  <Label className="font-semibold text-gray-700 mb-2 block">
-                    Visit Type
-                  </Label>
-                  <RadioGroup
-                    defaultValue={visitType}
-                    onValueChange={setVisitType}
-                    className="flex gap-4"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="home" id="home" />
-                      <Label htmlFor="home">Home Visit</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="site" id="site" />
-                      <Label htmlFor="site">Site Visit</Label>
-                    </div>
-                  </RadioGroup>
-                </div>
-
-                {/* Date Picker */}
-                <div>
-                  <Label className="font-semibold text-gray-700 mb-2 block">
-                    Select Date
-                  </Label>
-                  <Calendar
-                    mode="single"
-                    selected={selectedDate}
-                    onSelect={setSelectedDate}
-                    className="rounded-md border"
-                  />
-                </div>
-
-                {/* Time Slot */}
-                <div>
-                  <Label className="font-semibold text-gray-700 mb-2 block">
-                    Select Time Slot
-                  </Label>
-                  <Input
-                    placeholder="e.g. 10:00 AM - 12:00 PM"
-                    value={timeSlot}
-                    onChange={(e) => setTimeSlot(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <DialogFooter className="mt-4">
-                <Button
-                  className="w-full bg-[#007BFF] hover:bg-[#0062cc] text-white"
-                  onClick={handleBookingSubmit}
-                >
-                  Confirm Booking
-                </Button>
-              </DialogFooter>
+            <DialogContent className="sm:max-w-md bg-white rounded-xl">
+                   <div className={`${inter.className}`}>
+                    <h1 className="text-xl font-bold text-center ">Booking Approval </h1>
+                   <h1 className="p-2 text-center" >Do you want to approval the Booking of <strong>   {Propertydetails?.user_id.name}</strong> </h1>
+                      <div className="w-full flex  items-center justify-center gap-10">
+                          
+                             <Button onClick={SetBookingToApproval} variant={"selectdashed"} className="w-[90%] mt-3 hover:bg-white hover:border-2 hover:text-gray-500"> Approved the Booking</Button>
+                      </div>
+                   </div>
             </DialogContent>
           </Dialog>
         </div>
@@ -344,4 +294,4 @@ const handleBookingSubmit = async () => {
   );
 };
 
-export default PropertyDetails;
+export default page;

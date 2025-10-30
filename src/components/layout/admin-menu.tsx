@@ -66,7 +66,7 @@ export default function AdminDashboard() {
 
         {/* Features Grid */}
         <div className="grid grid-cols-2 gap-4">
-          <Link href={"/dashboard/user/propertyai"} >
+          <Link href={"/dashboard/admin/booking-approval"} >
           <FeatureCard index={0}  label=" User Pending Request" />
           </Link>
           <Link href={"/dashboard/admin/property-approval"}> 

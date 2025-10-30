@@ -22,7 +22,7 @@ function Page() {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/user/getApprovedBooking`);
+        const response = await axios.get(`${BASE_URL}/api/user/getBookingforApproval`);
         // Set properties from response; adapt the path to your API shape if needed
         setProperties(response.data.booking ?? response.data ?? []);
         
@@ -58,7 +58,7 @@ function Page() {
           </div>
         </div>
         <div className="  py-2 px-5 md:-ml-20 flex items-start  w-96 ">
-          <h1 className={`${inter.className} font-bold text-gray-600 text-2xl     flex items-center justify-center mb-2 `}>Lead Received<ChevronRight/></h1>
+          <h1 className={`${inter.className} font-bold text-gray-600 text-2xl     flex items-center justify-center mb-2 `}>User Booking Request  <ChevronRight/></h1>
         </div>
 
         <div className='h-full w-96 px-3.5 flex flex-col gap-2'>

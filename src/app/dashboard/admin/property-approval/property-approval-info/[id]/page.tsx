@@ -129,7 +129,7 @@ const SetPropertyToApproval = async()=>{
       >
         {/* Header */}
         <div className="w-11/12 max-w-md flex items-center justify-between mb-3">
-          <Link href="http://localhost:3000/dashboard/admin/property-approval">
+          <Link href="/dashboard/admin/property-approval">
             <Button
               variant="ghost"
               size="icon"
@@ -271,7 +271,7 @@ const SetPropertyToApproval = async()=>{
                    <h1 className="p-2 text-center" >Do you want to approval the Lead  <strong>{Propertydetails?.location}</strong> form the partner <strong>{Propertydetails?.users.name}</strong></h1>
                       <div className="w-full flex  items-center justify-center gap-10">
                            
-                             <Button onClick={SetPropertyToApproval} variant={"selectdashed"} className="w-80 mt-3 hover:bg-white hover:border-2 hover:text-gray-500"> Approved the Lead</Button>
+                             <Button onClick={SetPropertyToApproval} variant={"selectdashed"} className="w-[90%] mt-3 hover:bg-white hover:border-2 hover:text-gray-500"> Approved the Lead</Button>
                       </div>
                    </div>
             </DialogContent>
