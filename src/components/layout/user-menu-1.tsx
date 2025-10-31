@@ -1,7 +1,6 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, Search, CheckSquare, Heart, Calendar,ChevronRightIcon } from "lucide-react";
+import {ChevronRightIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import inter from "@/lib/font/Inter";
@@ -10,7 +9,7 @@ import inter from "@/lib/font/Inter";
 
 
 interface prop{
-  index:string,
+  icon:string,
   label : string
 }
 
@@ -77,6 +76,7 @@ function FeatureCard({ icon, label }:prop) {
     <div className="flex flex-col items-center justify-center bg-white rounded-2xl shadow-md py-6 hover:scale-105 transition-transform">
     <img className="h-10" src={`/image/${icon}.png`} alt="" />
       <p className="text-sm font-medium mt-2 text-center">{label}</p>
+      {icon == "safe" ? <p className="text-xs text-gray-400" >coming soon</p>:"" }
     </div>
   );
 }

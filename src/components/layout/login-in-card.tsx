@@ -140,7 +140,7 @@ export default function LoginInForm() {
           Google Login
         </Button>
       </div>
-      <p className="mt-5 text-xs font-bold text-center text-gray-400">Don't have an Account, <Link href={"/auth/sign-in"}><span className="hover:underline"> Sign-up</span></Link></p>
+      <p className="mt-5 text-xs font-bold text-center text-gray-400">Don &apos t have an Account, <Link href={"/auth/sign-in"}><span className="hover:underline"> Sign-up</span></Link></p>
     </div>
   );
 }

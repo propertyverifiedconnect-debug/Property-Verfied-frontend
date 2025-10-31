@@ -1,11 +1,8 @@
-import React ,{ JSX,useState ,useEffect} from "react";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, Search, CheckSquare, Heart, Calendar,ChevronRightIcon, UserCheck, User, Handshake } from "lucide-react";
-import Image from "next/image";
+import React, { useState, useEffect ,JSX } from "react";
 import Link from "next/link";
 import { Inter } from "next/font/google";
 import axios from "axios";
+import { ChevronRightIcon, User, Handshake } from "lucide-react";
 
 
 const inter = Inter({
@@ -14,17 +11,21 @@ const inter = Inter({
 });
 
 export default function AdminDashboard() {
-  const  BASEURl =  process.env.NEXT_PUBLIC_API_URL
-  const [Count, setCount] = useState();
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+  const [Count, setCount] = useState<number | null>(null);
 
-   
-   useEffect(() => {
-  const fetchProperties = async () => {
-    const response = await axios.get(`${BASEURl}/api/partner/getAllProperties`);
-    setCount(response.data.count);
-  };
-  fetchProperties();
-}, []);
+  useEffect(() => {
+    const fetchProperties = async () => {
+      if (!BASE_URL) return;
+      try {
+        const response = await axios.get(`${BASE_URL}/api/partner/getAllProperties`);
+        setCount(response?.data?.count ?? 0);
+      } catch (error) {
+        console.error("Failed to fetch properties", error);
+      }
+    };
+    fetchProperties();
+  }, [BASE_URL]);
  
   return (
     <div className={`${inter.className} flex flex-col h-screen bg-[#CDE4F9]`}>

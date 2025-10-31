@@ -7,16 +7,16 @@ import { Button } from '@/components/ui/button'
 import inter from '@/lib/font/Inter'
 import { ArrowLeft, Search, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import MiddlewareLoader from '@/components/shared/middleware-loader'
+
 import Nav from '@/components/layout/nav'
 import { Skeleton } from '@/components/ui/skeleton'
-import {motion} from "framer-motion" 
+
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || ''
 
 function Page() {
 
-  const [properties, setProperties] = useState<any[]>([]);  
+  const [properties, setProperties] = useState<unknown[]>([]);  
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -63,7 +63,7 @@ function Page() {
         <div className='h-full w-96 px-3.5 flex flex-col gap-2'>
           {properties.length > 0 ? (
             properties.map((p, i) => (
-              <PropertyCards key={i} property={p} />
+              <PropertyCards key={i} property={p} type={"admin"}  />
             ))
           ) : (
             // Fallback: show a few placeholders or a message

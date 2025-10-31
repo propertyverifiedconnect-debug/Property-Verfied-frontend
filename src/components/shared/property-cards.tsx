@@ -1,6 +1,8 @@
+"use client"
+
 import { Heart } from 'lucide-react'
 import React from 'react'
-import { Button } from '../ui/button'
+
 import inter from '@/lib/font/Inter'
 import {motion} from "framer-motion" 
 import Link from 'next/link'
@@ -11,7 +13,7 @@ function PropertyCards({property,type}) {
   return (
         <motion.div initial={{opacity:0}} animate={{y:-10,opacity:1}} key={property.id} className="bg-[#A5D2F2]  rounded-2xl p-3 w-full flex shadow-md items-center justify-center">
             <img
-              src={property.photos}
+              src={property?.photos}
               alt={property.name}
               className="w-23 h-23 rounded-lg object-cover"
             />
@@ -33,6 +35,8 @@ function PropertyCards({property,type}) {
               <span className="inline-block mt-1 whitespace-nowrap bg-white text-xs font-semibold px-2 py-1 rounded-lg">
                  ₹ {property.price}
               </span>
+
+             
            
           {
             type == 'User'

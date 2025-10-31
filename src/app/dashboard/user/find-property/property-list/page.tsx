@@ -1,8 +1,7 @@
 "use client"
 import React  ,{useState , useEffect}from "react";
-import { Search, ChevronDown, ChevronRight,Heart, Home, ShoppingBag, ArrowBigLeft, ArrowLeft } from "lucide-react";
+import { Search, ChevronDown, ChevronRight, ArrowLeft } from "lucide-react";
 import Nav from "@/components/layout/nav";
-import BottomNav from "@/components/shared/bottom-nav";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Inter } from "next/font/google";
@@ -17,7 +16,7 @@ const inter = Inter({
   variable: "--font-inter", // optional CSS variable
 });
 
-const page = () => {
+const Page = () => {
   // const properties = [
   //   {
   //     id: 1,
@@ -67,7 +66,7 @@ const page = () => {
 
  const BASE_URL = process.env.NEXT_PUBLIC_API_URL || ''
 
-  const [properties, setProperties] = useState<any[]>([]);  
+  const [properties, setProperties] = useState<unknown[]>([]);  
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -83,7 +82,7 @@ const page = () => {
     };
     fetchProperties();
     
-  }, []);
+  },[] );
 
   useEffect(()=>{
     console.log(properties)
@@ -162,4 +161,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

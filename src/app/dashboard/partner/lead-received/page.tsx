@@ -2,22 +2,40 @@
 
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import PropertyCards from '@/components/shared/property-cards'
+
 import { Button } from '@/components/ui/button'
 import inter from '@/lib/font/Inter'
 import { ArrowLeft, Search, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import MiddlewareLoader from '@/components/shared/middleware-loader'
+
 import Nav from '@/components/layout/nav'
 import { Skeleton } from '@/components/ui/skeleton'
-import {motion} from "framer-motion" 
+
 import BookingCards from '@/components/shared/booking-card'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || ''
 
+
+interface Property {
+  id: string;
+  approved_property_id: {
+    photos: string;
+    property_type: string;
+    user_id: {
+      name: string;
+    };
+    price: number;
+  };
+  user_id: {
+    name: string;
+  };
+  config: string;
+}
+
+
 function Page() {
 
-  const [properties, setProperties] = useState<any[]>([]);  
+  const [properties, setProperties] = useState<Property[]>([]);  
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -44,7 +62,7 @@ function Page() {
        <Nav/>
       <div className='min-h-screen w-full overflow-hidden bg-[#CDE4F9] py-17 px-4 flex items-center justify-start flex-col'>
         <div className="flex items-center justify-center gap-1 md:gap-3">
-          <Link href={"/dashboard/admin"}>
+          <Link href={"/dashboard/partner"}>
             <Button variant="outline" className="mb-2  rounded-full"><ArrowLeft/></Button>
           </Link>
 
@@ -64,7 +82,7 @@ function Page() {
         <div className='h-full w-96 px-3.5 flex flex-col gap-2'>
           {properties.length > 0 ? (
             properties.map((p, i) => (
-              <BookingCards key={i} property={p} />
+              <BookingCards key={i} property={p} type={"partner"} />
             ))
           ) : (
             // Fallback: show a few placeholders or a message

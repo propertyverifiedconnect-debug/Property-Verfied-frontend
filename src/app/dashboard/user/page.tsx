@@ -7,6 +7,7 @@ import { Inter } from "next/font/google";
 import MiddlewareLoader from "@/components/shared/middleware-loader";
 import BottomNav from "@/components/shared/bottom-nav";
 import PropertyDashboard from "@/components/layout/user-menu-1";
+import UserProfile from "@/components/layout/user-profile";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -39,14 +40,10 @@ export default function Page(): JSX.Element {
             <h1>No Order</h1>
           </div>
         ) : (
-          <div
-            className={`${inter.className} text-2xl text-gray-500 font-bold  h-screen w-full flex items-center justify-center -mt-20`}
-          >
-            <h1>Profile</h1>
-          </div>
+          <UserProfile/>
         )}
 
-        <BottomNav active={active} setActive={setActive} />
+        <BottomNav active={active} setActive={setActive} type={"user"} />
       </div>
     </>
   );

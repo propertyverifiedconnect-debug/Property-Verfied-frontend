@@ -1,39 +1,19 @@
 "use client";
-import React, { useState } from "react";
-import {
-  Input,
-} from "@/components/ui/input";
-import {
-  Label,
-} from "@/components/ui/label";
-import {
-  Textarea,
-} from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import React from "react";
+
 import {
   Button,
 } from "@/components/ui/button";
-import {
-  Checkbox,
-} from "@/components/ui/checkbox";
+
 import Nav from "@/components/layout/nav";
-import { ChevronLeft, ChevronRight , ArrowLeft} from "lucide-react";
-import { Inter } from "next/font/google";
+import {  ChevronRight , ArrowLeft} from "lucide-react";
 import Link from "next/link";
 import PropertyForm from "@/components/layout/property-listing-form";
+import inter from "@/lib/font/Inter";
 
 
 
-  const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+
 
 export default function PropertyDetailsForm() {
  

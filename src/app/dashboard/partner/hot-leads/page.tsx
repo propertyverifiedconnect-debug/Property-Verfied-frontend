@@ -1,8 +1,7 @@
 import Nav from '@/components/layout/nav'
-import PropertyCards from '@/components/shared/property-cards'
 import { Button } from '@/components/ui/button'
 import inter from '@/lib/font/Inter'
-import { Search ,ArrowLeft,ChevronRight, Flame  } from 'lucide-react'
+import { Search ,ArrowLeft,ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -36,9 +35,8 @@ function page() {
 
               <div className='h-full w-96 px-3.5
                 flex flex-col gap-2 '>
-                     <PropertyCards/>
-                       <PropertyCards/>
-                         <PropertyCards/>
+                   No Hot Refers
+                     
               </div>
     </div>
   

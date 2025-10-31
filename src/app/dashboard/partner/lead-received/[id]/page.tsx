@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import {
-  
+ 
   ArrowLeft,
-  
+ 
   Phone,
   Bot,
   Download,
@@ -24,9 +24,8 @@ import {
   DialogContent,
  
   DialogTrigger,
-
+  
 } from "@/components/ui/dialog";
-
 
 import Link from "next/link";
 import { Inter } from "next/font/google";
@@ -35,7 +34,7 @@ import { Badge } from "@/components/ui/badge";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -47,18 +46,25 @@ interface User {
   phone?: string;
 }
 
-interface PropertyDetails {
+interface ApprovedProperty {
   _id: string;
   property_type: string;
   location: string;
   photos: string[];
-  price: number | string;
-  users: User;
+  user_id: User;
   rera_number?: string;
   size?: string;
+  price?: string | number;
   description?: string;
   amenities?: string[];
+}
+
+interface BookingDetails {
+  _id: string;
+  user_id: User;
+  approved_property_id: ApprovedProperty;
   status?: string;
+  booking_date?: string;
   created_at?: string;
   updated_at?: string;
 }
@@ -79,22 +85,17 @@ interface StaticProperty {
 }
 
 interface ApiResponse {
-  properties: PropertyDetails;
+  booking: BookingDetails;
   message?: string;
-}
-
-interface ApprovalResponse {
-  message: string;
-  success?: boolean;
 }
 
 const Page: React.FC = () => {
   const params = useParams<{ id: string }>();
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
   const id = params.id;
-  const router = useRouter();
+ 
 
-  const [propertyDetails, setPropertyDetails] = useState<PropertyDetails | null>(null);
+  const [propertyDetails, setPropertyDetails] = useState<BookingDetails | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const property: StaticProperty = {
@@ -116,12 +117,12 @@ const Page: React.FC = () => {
     const fetchProperties = async (): Promise<void> => {
       try {
         const response = await axios.post<ApiResponse>(
-          `${BASE_URL}/api/partner/getPropertiesbyID`,
+          `${BASE_URL}/api/user/getBookingforApprovalbyID`,
           { id },
           { withCredentials: true }
         );
 
-        setPropertyDetails(response.data.properties);
+        setPropertyDetails(response.data.booking);
         console.log("Fetched property:", response.data);
       } catch (error) {
         const axiosError = error as AxiosError;
@@ -140,22 +141,23 @@ const Page: React.FC = () => {
     console.log(propertyDetails);
   }, [propertyDetails]);
 
-  const setPropertyToApproval = async (): Promise<void> => {
-    try {
-      const response = await axios.post<ApprovalResponse>(
-        `${BASE_URL}/api/partner/setPropertytoApproval`,
-        { id },
-        { withCredentials: true }
-      );
+  // Commented out approval function - can be uncommented if needed
+  // const setBookingToApproval = async (): Promise<void> => {
+  //   try {
+  //     const response = await axios.post<{ message: string }>(
+  //       `${BASE_URL}/api/user/setBookingtoApproval`,
+  //       { id },
+  //       { withCredentials: true }
+  //     );
 
-      alert(`Approved - ${response.data.message || response.data}`);
-      router.push("/dashboard/admin");
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      console.error("Error approving property:", axiosError.message);
-      alert("Failed to approve property. Please try again.");
-    }
-  };
+  //     alert(`Approved - ${response.data.message || response.data}`);
+  //     router.push("/dashboard/admin");
+  //   } catch (error) {
+  //     const axiosError = error as AxiosError;
+  //     console.error("Error approving booking:", axiosError.message);
+  //     alert("Failed to approve booking. Please try again.");
+  //   }
+  // };
 
   return (
     <>
@@ -164,8 +166,9 @@ const Page: React.FC = () => {
         className={`${inter.className} min-h-screen bg-gradient-to-b from-[#D7E9FB] to-[#C8E2F8] flex flex-col items-center pt-16 pb-24`}
       >
         {/* Header */}
-        <div className="w-11/12 max-w-md flex items-center justify-between mb-3">
-          <Link href="/dashboard/admin/property-approval">
+        <div className="w-11/12 max-w-md flex items-center  justify-between mb-3">
+          <div className="flex gap-2 items-center justify-center">
+          <Link href="/dashboard/partner/lead-received/">
             <Button
               variant="ghost"
               size="icon"
@@ -174,6 +177,9 @@ const Page: React.FC = () => {
               <ArrowLeft className="text-[#007BFF]" />
             </Button>
           </Link>
+          <h1 className="font-bold text-2xl text-gray-600">Lead Recevied</h1>
+
+          </div>
         </div>
 
         {/* Image Section */}
@@ -182,7 +188,7 @@ const Page: React.FC = () => {
             {propertyDetails && !isLoading ? (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <img
-                  src={propertyDetails.photos?.[0]}
+                  src={propertyDetails.approved_property_id.photos?.[0]}
                   alt={property.title}
                   className="w-full h-96 object-cover rounded-2xl shadow-md"
                 />
@@ -206,15 +212,16 @@ const Page: React.FC = () => {
             <h1
               className={`${inter.className} font-bold text-gray-700 text-2xl flex items-center gap-1`}
             >
-              {propertyDetails?.property_type || ""}
+              {propertyDetails?.approved_property_id.property_type || ""}
             </h1>
             <br />
             <p>
               <strong>Property Name</strong>
-              <br /> {propertyDetails?.property_type}
+              <br /> {propertyDetails?.approved_property_id.property_type}
             </p>
             <p>
-              <strong>Location</strong> <br /> {propertyDetails?.location}
+              <strong>Location</strong> <br />
+              {propertyDetails?.approved_property_id.location}
             </p>
             <p>
               <strong>RERA Number</strong> <br /> {property.RERA}
@@ -222,12 +229,19 @@ const Page: React.FC = () => {
             <p>
               <strong>Size / Type / Price:</strong>
               <br />
-              {property.size} | {property.type} | ₹ {propertyDetails?.price}
+              {property.size} | {property.type} | {property.price}
             </p>
+
             <p>
               <strong>Partner:</strong>
               <br />
-              {propertyDetails?.users.name}
+              {propertyDetails?.approved_property_id.user_id.name}
+            </p>
+
+            <p>
+              <strong>Booking by:</strong>
+              <br />
+              {propertyDetails?.user_id.name}
             </p>
 
             {/* Highlights */}
@@ -300,31 +314,29 @@ const Page: React.FC = () => {
             <Download /> Brochure
           </Button>
 
-          {/* Book Visit Dialog */}
+          {/* Contact Lead Dialog */}
           <Dialog>
             <DialogTrigger asChild>
               <Button className="flex-1 bg-[#2396C6] hover:bg-[#0062cc] text-white py-5 text-base rounded-xl font-medium shadow">
                 <Book />
-                Approve Lead
+                Contact the Lead
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md bg-white rounded-xl">
               <div className={`${inter.className}`}>
                 <h1 className="text-xl font-bold text-center">
-                  Lead Approval
+                  Contact Lead
                 </h1>
                 <h1 className="p-2 text-center">
-                  Do you want to approve the lead{" "}
-                  <strong>{propertyDetails?.location}</strong> from the partner{" "}
-                  <strong>{propertyDetails?.users.name}</strong>
+                  Do you want to contact the lead from{" "}
+                  <strong>{propertyDetails?.user_id.name}</strong>
                 </h1>
                 <div className="w-full flex items-center justify-center gap-10">
                   <Button
-                    onClick={setPropertyToApproval}
                     variant={"selectdashed"}
                     className="w-[90%] mt-3 hover:bg-white hover:border-2 hover:text-gray-500"
                   >
-                    Approve the Lead
+                    Contact the Lead
                   </Button>
                 </div>
               </div>

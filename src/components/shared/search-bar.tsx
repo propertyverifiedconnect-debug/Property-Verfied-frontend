@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import {
   Select,
   SelectContent,
@@ -10,17 +9,14 @@ import {
 } from "@/components/ui/select"
 
 export default function CitySelect({ onCityChange }) {
-  const [city, setCity] = useState("")
-
   const handleCityChange = (value) => {
-    setCity(value)
     if (onCityChange) onCityChange(value)
   }
 
   return (
     <div className="w-full max-w-xs mx-auto">
       <Select onValueChange={handleCityChange}>
-        <SelectTrigger className="w-80 bg-white shadow-sm rounded-xl border-2  border-[#abd8ec] focus:ring-2 focus:ring-[#2396C6]">
+        <SelectTrigger className="w-80 bg-white shadow-sm rounded-xl border-2 border-[#abd8ec] focus:ring-2 focus:ring-[#2396C6]">
           <SelectValue placeholder="Select City" />
         </SelectTrigger>
         <SelectContent>

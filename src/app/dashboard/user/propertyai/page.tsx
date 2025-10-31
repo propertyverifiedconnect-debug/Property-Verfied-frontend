@@ -3,13 +3,11 @@ import React, { JSX,useState } from "react";
 import { ArrowLeft, Bot, Send, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Inter } from "next/font/google";
+
 import AssistantOptions from "@/components/layout/ai-grid";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+
+
 
 type Sender = "bot" | "user";
 

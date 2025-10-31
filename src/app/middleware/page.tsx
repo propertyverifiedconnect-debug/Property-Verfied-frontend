@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React ,{JSX} from "react";
 import useRedirectByRole from "@/hooks/useRedirectByRole";
 import MiddlewareLoader from "@/components/shared/middleware-loader";
 

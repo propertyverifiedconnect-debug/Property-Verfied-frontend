@@ -20,16 +20,43 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
+
 import { Textarea } from "../ui/textarea";
 import { Upload } from "lucide-react";
+
+interface FormDataType {
+  lookingFor: string;
+  propertyKind: string;
+  propertyType: string;
+  bedroom: string | number;
+  bathroom: string | number;
+  balconies: string | number;
+  roomtype: string;
+  contact: string;
+  Area: string;
+  Areaunit: string;
+  floor: string;
+  ageproperty: string;
+  available: string;
+  availablefor: string;
+  suitablefor: string;
+  socialMedia: string;
+  description: string;
+  photos: FileList | null;  // ✅ FIXED
+  location: string;
+  price: string;
+  city?: string;
+}
+
 
 export default function PropertyForm() {
    
    const [step, setStep] = useState(1);
    const router = useRouter();
+   const BASEURL = process.env.NEXT_PUBLIC_API_URL;
 
-  const [formData, setFormData] = useState({
+
+  const [formData, setFormData] = useState <FormDataType>({
     lookingFor: "",
     propertyKind: "",
     propertyType: "",
@@ -47,7 +74,7 @@ export default function PropertyForm() {
     suitablefor:"",
     socialMedia:"",
   description:"",
-    photos:null,
+     photos: null,
     location: "",
     price: "",
     
@@ -55,13 +82,13 @@ export default function PropertyForm() {
 
   const handleNext = () => setStep((prev) => prev + 1);
   const handlePrev = () => setStep((prev) => prev - 1);
-  const handleChange = (field, value) => {
+  const handleChange = (field: string, value: string | number) => {
     setFormData({ ...formData, [field]: value });
   };
 
-    const handleFileChange = (e) => {
-    setFormData({ ...formData, photos: e.target.files });
-  };
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData({ ...formData, photos: e.target.files as FileList });
+    };
 
 
 
@@ -72,16 +99,18 @@ const handleSubmit = async () => {
     const fd = new FormData();
 
     // append fields (strings)
-    for (const key of [
-      'lookingFor','propertyKind','propertyType','contact','city','location',
-      'bedroom','bathroom','balconies','roomtype','Area','Areaunit',
-      'floor','ageproperty','available','availablefor','suitablefor',
-      'socialMedia','price','description'
-    ]) {
-      if (formData[key] !== undefined && formData[key] !== null) {
-        fd.append(key, formData[key]);
-      }
-    }
+  for (const key of [
+  'lookingFor','propertyKind','propertyType','contact','city','location',
+  'bedroom','bathroom','balconies','roomtype','Area','Areaunit',
+  'floor','ageproperty','available','availablefor','suitablefor',
+  'socialMedia','price','description'
+] as (keyof FormDataType)[]) {    // 👈 Added assertion
+  const value = formData[key];
+  if (value !== undefined && value !== null) {
+    fd.append(key, String(value)); // 👈 Convert to string to satisfy FormData
+  }
+}
+
 
     // append files (input name is 'photos' because server expects that)
     if (formData.photos && formData.photos.length) {
@@ -96,7 +125,7 @@ const handleSubmit = async () => {
     const token = localStorage.getItem('sb_access_token') || ''; // replace with your storage key
 
     const response = await axios.post(
-      'http://localhost:5000/api/partner/insertPropertyinDB',
+      `${BASEURL}/api/partner/insertPropertyinDB`,
       fd,
       {
         headers: {
@@ -112,7 +141,12 @@ const handleSubmit = async () => {
     
     console.log('Response:', response.data);
   } catch (error) {
-    console.error('❌ Error submitting form:', error.response ?? error);
+     if (axios.isAxiosError(error)) {
+    console.error("❌ Error submitting form:", error.response ?? error.message);
+  } else {
+    console.error("❌ Unknown error:", error);
+  }
+  alert("Something went wrong while submitting the form.");
     alert('Something went wrong while submitting the form.');
   }
 };

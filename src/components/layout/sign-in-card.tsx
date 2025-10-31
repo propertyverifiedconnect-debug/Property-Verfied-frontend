@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState ,JSX } from "react";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -9,6 +9,7 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import Link from "next/link";
 import axios from 'axios';
+import { useRouter } from "next/navigation";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,7 +31,8 @@ type Errors = Record<string, string>;
 
 export default function SignInForm(): JSX.Element {
    
-   
+     
+   const router = useRouter()
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -39,7 +41,7 @@ export default function SignInForm(): JSX.Element {
     city: "",
     password: "",
     confirmPassword: "",
-    role: "user",
+    role: "",
     terms: false,
   });
 
@@ -90,8 +92,10 @@ export default function SignInForm(): JSX.Element {
       } catch (err: unknown) {
         if (axios.isAxiosError(err) && err.response) {
           // attempt to read server error message
-          const serverMsg = (err.response.data as any)?.error ?? err.message;
+          const serverMsg = (err.response.data as { error?: string })?.error ?? err.message;
           alert(serverMsg);
+          router.push("/auth/login")
+
         } else {
           alert(String(err));
         }
@@ -178,6 +182,23 @@ export default function SignInForm(): JSX.Element {
           {errors.city && <p className="text-red-500 text-sm">{errors.city}</p>}
         </div>
 
+
+        </div>
+             <div>
+          <Label htmlFor="city" className="mb-2 text-[#247FBA]">Select role</Label>
+          <Select
+            value={formData.role}
+            onValueChange={(value: string) => setFormData((prev) => ({ ...prev, role: value }))}
+          >
+            <SelectTrigger className="w-full border-2"  >
+              <SelectValue placeholder="Select your Role" />
+            </SelectTrigger>
+            <SelectContent >
+              <SelectItem value="user">User</SelectItem>
+              <SelectItem value="partner">Partner</SelectItem>
+            </SelectContent>
+          </Select>
+          {errors.city && <p className="text-red-500 text-sm">{errors.city}</p>}
         </div>
 
         {/* Password */}

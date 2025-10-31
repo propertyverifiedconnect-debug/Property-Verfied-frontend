@@ -1,22 +1,19 @@
 "use client";
 
-import React from 'react'
-import Image from 'next/image'
+import React, { useState } from 'react'
 import useRedirectByRole from '@/hooks/useRedirectByRole';
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, Search, CheckSquare, Heart, Calendar } from "lucide-react";
-
-import Link from "next/link";
 import PartnerDashboard from '@/components/layout/profile-menu';
 import Nav from '@/components/layout/nav';
 import MiddlewareLoader from '@/components/shared/middleware-loader';
+import BottomNav from '@/components/shared/bottom-nav';
+import UserProfile from '@/components/layout/user-profile';
 
 
-
-function page() {
+type ActiveTab = "Home" | "Profile" | string;
+function Page() {
   const loading = useRedirectByRole();
-//  const loading = false
+
+ const [active, setActive] = useState<ActiveTab>("Home");
 
    if (loading) {
     return <MiddlewareLoader/>; // or a spinner
@@ -28,10 +25,19 @@ function page() {
     
     <>
   
-   <div className="min-h-screen w-full bg-[#CDE4F9]  ">
+   <div className="min-h-screen w-full flex items-center justify-center pb-10 bg-[#CDE4F9]  ">
 
+   {active == "Home" ?
     <PartnerDashboard/>
+          :
+          <div className='mt-10 w-full  '>
+            <UserProfile/>
+          </div>
+       
+       } 
 
+
+   <BottomNav active={active} setActive={setActive} type={'orther'}/>
    </div>
     
     </>
@@ -43,4 +49,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

@@ -7,11 +7,10 @@ import axios from "axios";
 export default function useRedirectByRole() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const BASEURL = process.env.NEXT_PUBLIC_API_URL
+  const BASEURL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     let isMounted = true;
-    
 
     const checkRole = async () => {
       try {
@@ -27,7 +26,7 @@ export default function useRedirectByRole() {
         try {
           const userData = localStorage.getItem("userdata");
           roleData = userData ? JSON.parse(userData) : null;
-        } catch (err) {
+        } catch {
           localStorage.removeItem("userdata");
           router.replace("/auth/login");
           return;
@@ -38,16 +37,22 @@ export default function useRedirectByRole() {
           return;
         }
 
-        if (roleData.role === "user") {
-          router.replace("/dashboard/user");
-        } else if (roleData.role === "partner") {
-          router.replace("/dashboard/partner");
-        } else if (roleData.role === "admin") {
-          router.replace("/dashboard/admin");
-        } else {
-          router.replace("/auth/login");
+        switch (roleData.role) {
+          case "user":
+            router.replace("/dashboard/user");
+            break;
+          case "partner":
+            router.replace("/dashboard/partner");
+            break;
+          case "admin":
+            router.replace("/dashboard/admin");
+            break;
+          default:
+            router.replace("/auth/login");
+            break;
         }
-      } catch (err) {
+      } catch (err: unknown) {
+        console.error("Error checking role:", err);
         router.replace("/auth/login");
       } finally {
         if (isMounted) setLoading(false);
@@ -59,7 +64,7 @@ export default function useRedirectByRole() {
     return () => {
       isMounted = false;
     };
-  }, [router]);
+  }, [router, BASEURL]); // ✅ Added BASEURL
 
   return loading;
 }

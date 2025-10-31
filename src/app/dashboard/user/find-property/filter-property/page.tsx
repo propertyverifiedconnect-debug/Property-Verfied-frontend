@@ -17,7 +17,7 @@ const inter = Inter({
 });
 
 export default function Page(): JSX.Element {
-  const [tab, setTab] = useState<string>("buy");
+
   const [selectedType, setSelectedType] = useState<string>("House/Villa");
   const [selectedBedrooms, setSelectedBedrooms] = useState<string>("");
   const [constructionStatus, setConstructionStatus] = useState<string>("");
