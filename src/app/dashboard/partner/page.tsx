@@ -37,7 +37,7 @@ function Page() {
        } 
 
 
-   <BottomNav active={active} setActive={setActive} type={'orther'}/>
+   <BottomNav active={active} setActive={setActive} type={'other'}/>
    </div>
     
     </>
