@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect ,useState } from 'react'
 import Image  from 'next/image'
 import { Bell } from 'lucide-react'
 import { Inter } from 'next/font/google'
@@ -11,7 +11,14 @@ const inter = Inter({
 });
 
 function Nav() {
-  
+   const [user, setUser] = useState();
+   useEffect(() => {
+        const storedUser = localStorage.getItem("userdata");
+        if (storedUser) {
+            const parsed = JSON.parse(storedUser) as User;
+            setUser(parsed);
+        }
+    }, []);
   return (
     <div className='h-12 fixed top-0 md:gap-0 gap-25   z-99 w-full md:p-4 px-2 bg-white shadow flex items-center justify-between'>
           <div className='h-10 w-50 flex items-center justify-center'>
@@ -34,7 +41,9 @@ function Nav() {
 
 
 <div className='h-10 w-10 bg-[#2396C6] text-white  flex items-center justify-center  border-2  rounded-full'>
-       <h1>M</h1>
+       <h1>
+          {user?.name.slice(0,1)}
+       </h1>
 </div>
 
      </div>
