@@ -57,7 +57,7 @@ export default function Home() {
             {/* Logo inside card */}
             <div className="h-20 w-60 m-auto flex items-center justify-center">
               <Image
-                src="/image/logo.png"
+                src="/image/Logo.png"
                 alt="logo"
                 width={140}
                 height={100}
