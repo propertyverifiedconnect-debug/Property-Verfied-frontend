@@ -31,7 +31,7 @@ export default function Home() {
           }}
         >
           <Image
-            src="/image/logo.png"
+            src="/image/Logo.png"
             height={100}
             width={400}
             alt="logo"

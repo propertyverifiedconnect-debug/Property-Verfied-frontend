@@ -16,7 +16,7 @@ function Nav() {
     <div className='h-12 fixed top-0 md:gap-0 gap-25   z-99 w-full md:p-4 px-2 bg-white shadow flex items-center justify-between'>
           <div className='h-10 w-50 flex items-center justify-center'>
            
-        <Image src={'/image/logo.png'} height={120} width={100} alt='logo'/>
+        <Image src={'/image/Logo.png'} height={120} width={100} alt='logo'/>
           </div>
 
 <div className={`${inter.className}  font-medium text-gray-600  md:flex items-center justify-center gap-10 pr-2 md:pr-20`}>

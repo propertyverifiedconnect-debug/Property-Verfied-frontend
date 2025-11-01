@@ -109,7 +109,7 @@ export default function SignInForm(): JSX.Element {
     <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md p-6  w-94 md:w-[29rem] bg-white rounded-lg shadow-md">
      
      <div className="h-20 w-60  m-auto flex items-center justify-center">
-       <Image src="/image/logo.png" alt="logo" width={140} height={100}  className="  scale-140" ></Image>
+       <Image src="/image/Logo.png" alt="logo" width={140} height={100}  className="  scale-140" ></Image>
      </div>
    <div className={`${inter.className} flex items-center justify-center flex-col`}>
       <h2 className={`${inter.className} text-[#247FBA] text-2xl font-bold mb-6 text-center`}>Sign Up</h2>
