@@ -22,35 +22,35 @@ export default function useRedirectByRole() {
           localStorage.setItem("userdata", JSON.stringify(res.data));
         }
 
-        let roleData = null;
-        try {
-          const userData = localStorage.getItem("userdata");
-          roleData = userData ? JSON.parse(userData) : null;
-        } catch {
-          localStorage.removeItem("userdata");
-          router.replace("/auth/login");
-          return;
-        }
+        // let roleData = null;
+        // try {
+        //   const userData = localStorage.getItem("userdata");
+        //   roleData = userData ? JSON.parse(userData) : null;
+        // } catch {
+        //   localStorage.removeItem("userdata");
+        //   router.replace("/auth/login");
+        //   return;
+        // }
 
-        if (!roleData?.role) {
-          router.replace("/auth/login");
-          return;
-        }
+        // if (!roleData?.role) {
+        //   router.replace("/auth/login");
+        //   return;
+        // }
 
-        switch (roleData.role) {
-          case "user":
-            router.replace("/dashboard/user");
-            break;
-          case "partner":
-            router.replace("/dashboard/partner");
-            break;
-          case "admin":
-            router.replace("/dashboard/admin");
-            break;
-          default:
-            router.replace("/auth/login");
-            break;
-        }
+        // switch (roleData.role) {
+        //   case "user":
+        //     router.replace("/dashboard/user");
+        //     break;
+        //   case "partner":
+        //     router.replace("/dashboard/partner");
+        //     break;
+        //   case "admin":
+        //     router.replace("/dashboard/admin");
+        //     break;
+        //   default:
+        //     router.replace("/auth/login");
+        //     break;
+        // }
       } catch (err: unknown) {
         console.error("Error checking role:", err);
         router.replace("/auth/login");

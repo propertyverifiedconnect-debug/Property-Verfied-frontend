@@ -41,7 +41,7 @@ export default function SignInForm(): JSX.Element {
     city: "",
     password: "",
     confirmPassword: "",
-    role: "",
+    role: "user",
     terms: false,
   });
 
@@ -184,22 +184,7 @@ export default function SignInForm(): JSX.Element {
 
 
         </div>
-             <div>
-          <Label htmlFor="city" className="mb-2 text-[#247FBA]">Select role</Label>
-          <Select
-            value={formData.role}
-            onValueChange={(value: string) => setFormData((prev) => ({ ...prev, role: value }))}
-          >
-            <SelectTrigger className="w-full border-2"  >
-              <SelectValue placeholder="Select your Role" />
-            </SelectTrigger>
-            <SelectContent >
-              <SelectItem value="user">User</SelectItem>
-              <SelectItem value="partner">Partner</SelectItem>
-            </SelectContent>
-          </Select>
-          {errors.city && <p className="text-red-500 text-sm">{errors.city}</p>}
-        </div>
+       
 
         {/* Password */}
         <div>

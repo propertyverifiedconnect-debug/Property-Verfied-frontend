@@ -19,6 +19,7 @@ const inter = Inter({
 interface FormData {
   email: string;
   password: string;
+  role: string;
 }
 
 interface FormErrors {
@@ -33,6 +34,7 @@ export default function LoginInForm() {
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
+    role:"user"
   });
 
    const [loading, setloading] = useState<boolean>(false);
@@ -64,19 +66,22 @@ export default function LoginInForm() {
       try {
         const res = await axios.post(
           `${BASEURL}/api/auth/login`,
-          { email: formData.email, password: formData.password },
+          { email: formData.email, password: formData.password , role:formData.role },
           { withCredentials: true }
         );
         alert(res.data.message);
-        router.push("/middleware");
+        router.push("/dashboard/user");
       } catch (err: unknown) {
         if (axios.isAxiosError(err)) {
           // AxiosError: may have response.data.error
           alert(err.response?.data?.error ?? err.message);
+                     setloading(false);
         } else if (err instanceof Error) {
           alert(err.message);
+                     setloading(false);
         } else {
           alert(String(err));
+                     setloading(false);
         }
       }
     }
