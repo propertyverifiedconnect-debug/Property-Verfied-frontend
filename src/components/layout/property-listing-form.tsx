@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {motion} from "framer-motion"
 import { useRouter } from "next/navigation";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import axios from "axios";
 import {
   Card,
@@ -52,6 +54,7 @@ interface FormDataType {
 export default function PropertyForm() {
    
    const [step, setStep] = useState(1);
+   const [loading, setloading] = useState(false);
    const router = useRouter();
    const BASEURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -93,7 +96,8 @@ export default function PropertyForm() {
 
 
 const handleSubmit = async () => {
-
+  
+   setloading(true)
   
   try {
     const fd = new FormData();
@@ -587,6 +591,9 @@ const handleSubmit = async () => {
           )}
         </CardContent>
 
+
+
+
         <CardFooter className="flex justify-between">
           {step > 1 && (
             <Button variant="outline" onClick={handlePrev}>
@@ -599,8 +606,20 @@ const handleSubmit = async () => {
             </Button>
           )}
           {step === 3 && (
-            <Button onClick={handleSubmit} className="ml-auto">
-              Submit
+            <Button onClick={handleSubmit} className="ml-auto w-60">
+              {
+                loading ? 
+                <>
+                 <div className="flex items-center justify-center  ">
+  <div className="animate-spin rounded-2xl  h-4 w-4 border-b-2 group-hover:border-[#247FBA] border-white"></div>
+</div>
+ Please wait
+                </>
+                :
+                
+               <h1>Submit</h1> 
+              }
+              
             </Button>
           )}
         </CardFooter>

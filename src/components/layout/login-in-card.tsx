@@ -35,6 +35,8 @@ export default function LoginInForm() {
     password: "",
   });
 
+   const [loading, setloading] = useState<boolean>(false);
+
   const [errors, setErrors] = useState<FormErrors>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +51,7 @@ export default function LoginInForm() {
     e.preventDefault();
 
     // Simple validation
+  
     const newErrors: FormErrors = {};
 
     if (!formData.email) newErrors.email = "Email is required";
@@ -56,6 +59,7 @@ export default function LoginInForm() {
 
     setErrors(newErrors);
 
+    setloading(true);
     if (Object.keys(newErrors).length === 0) {
       try {
         const res = await axios.post(
@@ -129,8 +133,15 @@ export default function LoginInForm() {
         </div>
 
         {/* Submit Button */}
-        <Button type="submit" className="w-full mt-4 bg-[#247FBA] hover:scale-105 hover:bg-white hover:border-2 hover:text-[#247FBA]">
-          Login
+        <Button  type="submit" className="group w-full mt-4 bg-[#247FBA] hover:scale-105 hover:bg-white hover:border-2 hover:text-[#247FBA]">
+          {loading ?
+         <div className="flex items-center justify-center  ">
+  <div className="animate-spin rounded-2xl  h-4 w-4 border-b-2 group-hover:border-[#247FBA] border-white"></div>
+</div>
+           :
+          <h1>Login</h1>
+          }
+          
         </Button>
       </form>
       <hr className="mt-3" />
