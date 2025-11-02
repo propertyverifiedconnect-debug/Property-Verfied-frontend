@@ -29,7 +29,7 @@ export default function Page(): JSX.Element {
     <>
       <Nav />
       <div
-        className={`${inter.className} min-h-screen w-full flex flex-col md:px-50  bg-[#fafafa] pt-12 md:pt-20`}
+        className={`${inter.className} min-h-screen w-full flex flex-col   bg-[#CDE4F9] pt-12 md:pt-20`}
       >
         {active === "Home" ? (
           <PropertyDashboard />

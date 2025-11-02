@@ -16,13 +16,13 @@ interface prop{
 
 export default function PropertyDashboard() {
   return (
-    <div className="flex flex-col h-screen bg-[#CDE4F9]">
+    <div className="flex flex-col min-h-screen w-full  bg-[#CDE4F9]">
       {/* Header */}
     
    
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-4 py-3">
+      <div className="flex-1 overflow-y-auto px-4 py-3 ">
     <h1 className={`text-2xl ${inter.className} font-bold text-gray-600 flex items-center`}>User Dashboard <ChevronRightIcon/></h1>
         {/* City Selector */}
         <div className="mb-4">
@@ -41,13 +41,13 @@ export default function PropertyDashboard() {
         </div>
 
         {/* Property Image */}
-        <div className="rounded-2xl overflow-hidden shadow-md mb-4">
+        <div className="rounded-2xl overflow-hidden flex items-center justify-center mb-4">
           <Image
             src="/image/image-2.jpg"
             alt="Property"
             width={400}
             height={200}
-            className="w-full h-48 object-cover"
+            className="w-full h-48 md:h-96 md:w-[40rem] md:rounded-2xl shadow-md  object-cover"
           />
         </div>
 
