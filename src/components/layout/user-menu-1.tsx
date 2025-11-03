@@ -16,7 +16,7 @@ interface prop{
 
 export default function PropertyDashboard() {
   return (
-    <div className="flex flex-col min-h-screen w-full  bg-[#CDE4F9]">
+    <div className="flex flex-col min-h-screen w-full mb-20  bg-[#CDE4F9]">
       {/* Header */}
     
    
@@ -59,8 +59,11 @@ export default function PropertyDashboard() {
           <Link href={"/dashboard/user/find-property/filter-property"}> 
           <FeatureCard icon={"Find"} label="Find Property" />
           </Link>
-          <FeatureCard icon={"safe"} label="Verify your Property" />
+           <Link href={"/dashboard/user/refer-pro"}> 
+           <FeatureCard icon={"refer"} label="Refer Pro" />
+          </Link>
           <FeatureCard icon={"law"} label="Wishlist" />
+          <FeatureCard icon={"safe"} label="Verify your Property" />
          
         </div>
       </div>
@@ -74,7 +77,7 @@ export default function PropertyDashboard() {
 function FeatureCard({ icon, label }:prop) {
   return (
     <div className="flex flex-col items-center justify-center bg-white rounded-2xl shadow-md py-6 hover:scale-105 transition-transform">
-    <img className="h-10" src={`/image/${icon}.png`} alt="" />
+    <img className="h-10 scale-120" src={`/image/${icon}.png`} alt="" />
       <p className="text-sm font-medium mt-2 text-center">{label}</p>
       {icon == "safe" ? <p className="text-xs text-gray-400" >coming soon</p>:"" }
     </div>

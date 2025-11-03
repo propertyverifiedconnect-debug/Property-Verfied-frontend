@@ -264,12 +264,12 @@ const PropertyDetails: React.FC = () => {
             <h1
               className={`${inter.className} font-bold text-gray-700 text-2xl flex items-center gap-1`}
             >
-              {propertyDetails?.property_kind || "Loading..."}
+              {propertyDetails?.property_name || "Loading..."}
             </h1>
             <br />
             <p>
-              <strong>Property Name</strong>
-              <br /> {property.name}
+              <strong>Property type</strong>
+              <br /> {propertyDetails?.property_type}
             </p>
             <p>
               <strong>Location</strong> <br /> {propertyDetails?.location || property.location}
