@@ -17,22 +17,20 @@ export default function AssistantOptions() {
 
                     <div className="md:w-[26rem] w-[100%]  h-40 gap-2 flex flex-wrap items-center justify-center ">
                         
-                        <div className=" p-3 rounded-full gap-1   flex items-center text-[11px] md:text-sm justify-center w-fit border-2 border-dashed">
+                        <div className=" p-3 rounded-full gap-1   flex items-center text-[11px] md:text-sm justify-center w-fit border-2 border-dashed border-zinc-700">
                         <HomeIcon size={20} />  View Properties with AI
                         </div>
-                            <div className="p-3 rounded-full gap-1   w-fit border-2 border-dashed  text-[11px] md:text-sm  flex items-center justify-center">
+                            <div className="p-3 rounded-full gap-1   w-fit border-2 border-dashed border-zinc-700  text-[11px] md:text-sm  flex items-center justify-center">
                           <PieChart size={20}/> Budget Analysis
                         </div>
-                            <div className="p-3 w-fit rounded-full gap-1   border-2 border-dashed  text-[11px] md:text-sm  flex items-center justify-center">
+                            <div className="p-3 w-fit rounded-full gap-1   border-2 border-dashed border-zinc-700  text-[11px] md:text-sm  flex items-center justify-center">
                         <User size={20}/>  People’s Category Choice
                         </div>
-                            <div className="p-3 w-fit rounded-full gap-1   border-2 border-dashed  text-[11px] md:text-sm  flex items-center justify-center">
-                         <GiftIcon size={20}/> Club Buying Offers
-                        </div>
-                            <div className="p-3 w-fit rounded-full gap-1   border-2 border-dashed   text-[11px] md:text-sm flex items-center justify-center">
+                         
+                            <div className="p-3 w-fit rounded-full gap-1   border-2 border-dashed border-zinc-700   text-[11px] md:text-sm flex items-center justify-center">
                         <Building2 size={20}/>   Rent Solutions (Smart Matching)
                         </div>
-                            <div className="p-3 w-fit border-2 border-dashed rounded-full gap-1     text-[11px] md:text-sm flex items-center justify-center">
+                            <div className="p-3 w-fit border-2 border-dashed border-zinc-700 rounded-full gap-1     text-[11px] md:text-sm flex items-center justify-center">
                        <MessageSquare size={20}/>  AI Discuss
                         </div>
                         
