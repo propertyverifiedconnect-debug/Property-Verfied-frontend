@@ -31,18 +31,18 @@ export default function Page(): JSX.Element {
     <div className="h-screen w-full flex items-center justify-center">
       <div className="flex flex-col  bg-[#CDE4F9] text-zinc-700 w-full md:w-[80%] mx-auto h-full sm:h-[600px] md:rounded-3xl overflow-hidden shadow-lg border border-[#123a57]">
         {/* Header */}
-        <Link href={"/dashboard/user"}>
-          <div className="w-full p-2 px-2">
-            <button className="p-2 bg-white rounded-full">
+    
+
+        <div className="flex items-center gap-2 bg-white px-4 w-full py-3  border-[#0c3d5a]">
+                <Link href={"/dashboard/user"}>
+          <div className="w-full p-2 px-2 z-[999]">
+            <button className="p-2 bg-[#CDE4F9] border   rounded-full">
               <ArrowLeft color="black" size={20} />
             </button>
           </div>
         </Link>
-
-        <div className="flex items-center gap-2 bg-white px-4 w-full py-3  border-[#0c3d5a]">
-           <Bot size={40} className="z-40"/>
           <div>
-            <div className="h-10 w-30 rounded-2xl p-2 bg-white overflow-hidden flex items-center scale-140  justify-center">
+            <div className="h-10 w-30 ml-4 rounded-2xl p-2 bg-white overflow-hidden flex items-center scale-150  justify-center">
               <Image src={"/image/assitant.png"}  height={120} width={150} alt="logo" />
             </div>
             {/* <p className="text-xs text-gray-400 mt-2">Let’s get you verified</p> */}
