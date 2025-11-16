@@ -7,7 +7,7 @@ function page() {
           <div className='container min-h-screen w-full '>
 
 
- <LoginInForm/>
+            <LoginInForm/>
 
           </div>
     
