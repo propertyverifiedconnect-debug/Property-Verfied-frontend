@@ -21,8 +21,8 @@ function Nav() {
         }
     }, []);
   return (
-    <div className='h-12 fixed top-0 md:gap-0 gap-25   z-99 w-full md:p-4 px-2 bg-white shadow flex items-center justify-between'>
-          <div className='h-10 w-50 flex items-center justify-center'>
+    <div className='h-12 fixed top-0 md:gap-0 gap-40  z-99 w-full md:p-4 px-0 bg-white shadow flex items-center justify-between'>
+          <div className='h-10 w-50  scale-110 flex items-center justify-center'>
            
         <Image src={'/image/Logo.png'} height={120} width={100} alt='logo'/>
           </div>
@@ -37,7 +37,7 @@ function Nav() {
       </Link>
        <h1>Order</h1>
      </div>
-     <div className='flex gap-10 items-center '>
+     <div className='flex gap-3 items-center '>
       <Bell/>
 
 

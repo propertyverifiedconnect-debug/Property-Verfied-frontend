@@ -621,7 +621,7 @@ export default function AIAssistantChat() {
                      animate={{opacity:1}}
                     key={option.id}
                     onClick={() => handleModeSelection(option.id as AssistantMode)}
-                    className="p-3 rounded-full gap-1 flex items-center text-[11px] md:text-sm justify-center w-fit border-2 border-dashed border-zinc-700 hover:bg-white hover:border-solid hover:shadow-md transition-all cursor-pointer"
+                    className="p-3 rounded-full font-semibold  gap-1 flex items-center text-[11px] shadow-2xl bg-white  md:bg-none md:text-sm justify-center w-fit border-2 md:border-dashed border-gray-400 md:border-zinc-700 hover:bg-white hover:border-solid hover:shadow-md transition-all cursor-pointer"
                   >
                     <Icon size={20} /> {option.label}
                   </motion.button>

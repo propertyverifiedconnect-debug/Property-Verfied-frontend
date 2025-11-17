@@ -23,7 +23,7 @@ export default function PropertyDashboard() {
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-4 py-3 ">
-    <h1 className={`text-2xl ${inter.className} font-bold text-gray-600 flex items-center`}>User Dashboard <ChevronRightIcon/></h1>
+    {/* <h1 className={`text-2xl ${inter.className} font-bold text-gray-600 flex items-center`}>User Dashboard <ChevronRightIcon/></h1> */}
         {/* City Selector */}
         <div className="mb-4">
           <label className="text-sm font-medium mb-1 block">Select City</label>
