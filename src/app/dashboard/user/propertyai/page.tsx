@@ -4,6 +4,15 @@ import { ArrowLeft, Bot, Send, User, Home, MessageSquare, PieChart, Building2, M
 import inter from "@/lib/font/Inter";
 import {motion} from "framer-motion"
 import Link from "next/link";
+import conversationFlows from "@/function/conversationFlow";
+import PropertyResultComponent from "@/components/layout/AI-Layout/PropertyResultComponent";
+import BudgetResultComponent from "@/components/layout/AI-Layout/BudgetResultComponent";
+import CategoryResultComponent from "@/components/layout/AI-Layout/CategoryResultComponent";
+import RentResultComponent from "@/components/layout/AI-Layout/RentResultComponent";
+import axios from "axios";
+
+
+const BaseURL = process.env.NEXT_PUBLIC_API_URL 
 
 type Sender = "bot" | "user" | "component";
 
@@ -15,108 +24,6 @@ type Message = {
 
 type AssistantMode = "properties" | "budget" | "category" | "rent" | "discuss" | null;
 
-const conversationFlows = {
-  properties: [
-    {
-      question: "Hi! Which area are you searching property in?",
-      options: ["Baner, Pune", "Hinjewadi, Pune", "Wakad, Pune", "Kharadi, Pune", "Other"],
-      allowText: true
-    },
-    {
-      question: "Great! What's your budget range?",
-      options: ["40-60 Lakhs", "60-80 Lakhs", "80 Lakhs - 1 Cr", "1 Cr+"],
-      allowText: true
-    },
-    {
-      question: "Do you prefer apartment, villa, or plot?",
-      options: ["1BHK Apartment", "2BHK Apartment", "3BHK Apartment", "Villa", "Plot"],
-      allowText: false
-    },
-  ],
-  budget: [
-    {
-      question: "Can I ask few financial questions to check your affordability?",
-      options: ["Yes, let's proceed", "No, skip this"],
-      allowText: false
-    },
-    {
-      question: "What's your monthly income?",
-      options: ["₹50,000-75,000", "₹75,000-1,00,000", "₹1,00,000-1,50,000", "₹1,50,000+"],
-      allowText: true
-    },
-    {
-      question: "Any EMIs or loans currently?",
-      options: ["No EMIs", "₹10,000-20,000", "₹20,000-30,000", "₹30,000+"],
-      allowText: true
-    },
-    {
-      question: "What are your monthly household expenses?",
-      options: ["₹20,000-30,000", "₹30,000-40,000", "₹40,000-50,000", "₹50,000+"],
-      allowText: true
-    },
-    {
-      question: "Do you plan co-buying with spouse/family?",
-      options: ["Yes", "No, solo"],
-      allowText: false
-    },
-  ],
-  category: [
-    {
-      question: "Let's find your community match. What's your profession?",
-      options: ["Software Engineer", "Business Owner", "Doctor", "Teacher", "Government Employee", "Other"],
-      allowText: true
-    },
-    {
-      question: "Lifestyle type — quiet, social, or active?",
-      options: ["Quiet", "Social", "Active"],
-      allowText: false
-    },
-    {
-      question: "Family type?",
-      options: ["Single, living alone", "Couple", "Family with kids", "Joint family"],
-      allowText: false
-    },
-    {
-      question: "Any personal interest or mindset category?",
-      options: ["Entrepreneurial", "Creative", "Tech-savvy", "Traditional", "Health-focused"],
-      allowText: false
-    },
-  ],
-  rent: [
-    {
-      question: "Looking for rent options? Which area are you interested in?",
-      options: ["Dwarka", "Baner", "Hinjewadi", "Koramangala", "Other"],
-      allowText: true
-    },
-    {
-      question: "Prefer shared rooms or full flat?",
-      options: ["Shared room", "Full flat - 1BHK", "Full flat - 2BHK"],
-      allowText: false
-    },
-    {
-      question: "What's your budget range?",
-      options: ["₹5,000-10,000", "₹10,000-15,000", "₹15,000-20,000", "₹20,000+"],
-      allowText: true
-    },
-    {
-      question: "What's your profession?",
-      options: ["IT Professional", "Govt employee", "Student", "Business", "Other"],
-      allowText: true
-    },
-    {
-      question: "Lifestyle preference — quiet or social?",
-      options: ["Quiet", "Social"],
-      allowText: false
-    },
-  ],
-  discuss: [
-    {
-      question: "Welcome to AI Discuss — your free talk zone! What would you like to discuss today?",
-      options: ["Compare Properties", "Market Analysis", "Investment Advice", "Area Recommendations"],
-      allowText: true
-    },
-  ],
-};
 
 const assistantOptions = [
   { id: "properties", label: "View Properties with AI ", icon: Home },
@@ -127,210 +34,6 @@ const assistantOptions = [
 ];
 
 // Result Components
-const PropertyResultComponent = ({ answers }: { answers: string[] }) => (
-  <div className="bg-white rounded-2xl p-4 shadow-lg max-w-md">
-    <div className="flex items-center gap-2 mb-4">
-      <div className="bg-green-100 p-2 rounded-full">
-        <Home className="text-green-600" size={24} />
-      </div>
-      <h3 className="font-bold text-lg">Property Analysis Complete</h3>
-    </div>
-    
-    <div className="space-y-3">
-      <div className="flex items-center gap-2 text-sm">
-        <MapPin size={16} className="text-blue-600" />
-        <span className="font-medium">Area:</span>
-        <span>{answers[0]}</span>
-      </div>
-      
-      <div className="flex items-center gap-2 text-sm">
-        <IndianRupee size={16} className="text-green-600" />
-        <span className="font-medium">Budget:</span>
-        <span>{answers[1]}</span>
-      </div>
-      
-      <div className="flex items-center gap-2 text-sm">
-        <Building2 size={16} className="text-purple-600" />
-        <span className="font-medium">Type:</span>
-        <span>{answers[2]}</span>
-      </div>
-    </div>
-
-    <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-      <div className="flex items-center justify-between mb-2">
-        <span className="font-semibold">Top Match</span>
-        <div className="flex items-center gap-1">
-          <Star className="text-yellow-500 fill-yellow-500" size={16} />
-          <span className="font-bold text-blue-600">87%</span>
-        </div>
-      </div>
-      <p className="text-sm text-gray-700">{answers[2]} in {answers[0]}</p>
-      <div className="mt-2 text-xs text-gray-600">
-        <div className="flex justify-between"><span>Area Rating:</span><span>9/10 ✅</span></div>
-        <div className="flex justify-between"><span>Price:</span><span>7/10 ⚖️</span></div>
-        <div className="flex justify-between"><span>Lifestyle:</span><span>8/10 ☕</span></div>
-      </div>
-    </div>
-
-    <button className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-      View Properties
-    </button>
-  </div>
-);
-
-const BudgetResultComponent = ({ answers }: { answers: string[] }) => (
-  <div className="bg-white rounded-2xl p-4 shadow-lg max-w-md">
-    <div className="flex items-center gap-2 mb-4">
-      <div className="bg-green-100 p-2 rounded-full">
-        <PieChart className="text-green-600" size={24} />
-      </div>
-      <h3 className="font-bold text-lg">Budget Analysis</h3>
-    </div>
-    
-    <div className="space-y-3 text-sm">
-      <div className="p-3 bg-gray-50 rounded-lg">
-        <p className="text-gray-600">Monthly Income</p>
-        <p className="font-bold text-lg">{answers[1]}</p>
-      </div>
-      
-      <div className="grid grid-cols-2 gap-2">
-        <div className="p-3 bg-orange-50 rounded-lg">
-          <p className="text-gray-600 text-xs">Current EMIs</p>
-          <p className="font-semibold">{answers[2]}</p>
-        </div>
-        <div className="p-3 bg-purple-50 rounded-lg">
-          <p className="text-gray-600 text-xs">Expenses</p>
-          <p className="font-semibold">{answers[3]}</p>
-        </div>
-      </div>
-    </div>
-
-    <div className="mt-4 p-4 bg-green-50 rounded-lg border-2 border-green-200">
-      <div className="flex items-center gap-2 mb-2">
-        <TrendingUp className="text-green-600" size={20} />
-        <span className="font-bold text-green-700">Safe Purchase Limit</span>
-      </div>
-      <p className="text-2xl font-bold text-green-600">₹60-65 Lakhs</p>
-      <p className="text-xs text-gray-600 mt-1">EMI Capacity: ₹28,000/month</p>
-      <p className="text-xs text-green-700 mt-2">✅ Risk Level: Low</p>
-    </div>
-
-    <div className="mt-3 p-3 bg-yellow-50 rounded-lg text-xs">
-      <p className="text-gray-700">💡 <strong>Recommendation:</strong> Prefer verified 2BHK within ₹60L for safe EMI ratio (28%)</p>
-    </div>
-  </div>
-);
-
-const CategoryResultComponent = ({ answers }: { answers: string[] }) => (
-  <div className="bg-white rounded-2xl p-4 shadow-lg max-w-md">
-    <div className="flex items-center gap-2 mb-4">
-      <div className="bg-purple-100 p-2 rounded-full">
-        <Users className="text-purple-600" size={24} />
-      </div>
-      <h3 className="font-bold text-lg">Community Match</h3>
-    </div>
-    
-    <div className="space-y-2 text-sm mb-4">
-      <div className="flex justify-between">
-        <span className="text-gray-600">Profession:</span>
-        <span className="font-medium">{answers[0]}</span>
-      </div>
-      <div className="flex justify-between">
-        <span className="text-gray-600">Lifestyle:</span>
-        <span className="font-medium">{answers[1]}</span>
-      </div>
-      <div className="flex justify-between">
-        <span className="text-gray-600">Family Type:</span>
-        <span className="font-medium">{answers[2]}</span>
-      </div>
-      <div className="flex justify-between">
-        <span className="text-gray-600">Mindset:</span>
-        <span className="font-medium">{answers[3]}</span>
-      </div>
-    </div>
-
-    <div className="p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border-2 border-purple-200">
-      <div className="flex items-center justify-between mb-2">
-        <span className="font-bold text-purple-700">Best Match</span>
-        <div className="flex items-center gap-1">
-          <Star className="text-yellow-500 fill-yellow-500" size={16} />
-          <span className="font-bold text-purple-600">92%</span>
-        </div>
-      </div>
-      <p className="font-semibold text-gray-800">Young IT Professionals Hub</p>
-      <p className="text-xs text-gray-600 mt-2">🏘️ Popular Areas: Hinjewadi, Baner, Wakad</p>
-    </div>
-
-    <div className="mt-3 grid grid-cols-3 gap-2 text-xs">
-      <div className="p-2 bg-blue-50 rounded text-center">
-        <p className="font-semibold">Safe</p>
-        <p className="text-gray-600">Choices</p>
-      </div>
-      <div className="p-2 bg-green-50 rounded text-center">
-        <p className="font-semibold">Peer</p>
-        <p className="text-gray-600">Network</p>
-      </div>
-      <div className="p-2 bg-purple-50 rounded text-center">
-        <p className="font-semibold">Smart</p>
-        <p className="text-gray-600">Invest</p>
-      </div>
-    </div>
-  </div>
-);
-
-const RentResultComponent = ({ answers }: { answers: string[] }) => (
-  <div className="bg-white rounded-2xl p-4 shadow-lg max-w-md">
-    <div className="flex items-center gap-2 mb-4">
-      <div className="bg-blue-100 p-2 rounded-full">
-        <Building2 className="text-blue-600" size={24} />
-      </div>
-      <h3 className="font-bold text-lg">Rent Match Found</h3>
-    </div>
-    
-    <div className="space-y-2 text-sm mb-4">
-      <div className="flex items-center gap-2">
-        <MapPin size={14} className="text-blue-600" />
-        <span className="text-gray-600">Area:</span>
-        <span className="font-medium">{answers[0]}</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <Home size={14} className="text-green-600" />
-        <span className="text-gray-600">Type:</span>
-        <span className="font-medium">{answers[1]}</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <IndianRupee size={14} className="text-purple-600" />
-        <span className="text-gray-600">Budget:</span>
-        <span className="font-medium">{answers[2]}</span>
-      </div>
-    </div>
-
-    <div className="p-4 bg-green-50 rounded-lg border-2 border-green-200">
-      <div className="flex items-center justify-between mb-2">
-        <span className="font-bold text-green-700">Perfect Match</span>
-        <div className="flex items-center gap-1">
-          <Star className="text-yellow-500 fill-yellow-500" size={16} />
-          <span className="font-bold text-green-600">91%</span>
-        </div>
-      </div>
-      <p className="text-sm text-gray-700">✅ Matched with 2 verified roommates</p>
-      <p className="text-xs text-gray-600 mt-2">Same profession + {answers[4]} lifestyle</p>
-    </div>
-
-    <div className="mt-3 p-3 bg-blue-50 rounded-lg text-xs">
-      <p className="font-semibold mb-1">✨ Benefits:</p>
-      <ul className="space-y-1 text-gray-700">
-        <li>• Safe verified locality</li>
-        <li>• Similar lifestyle match</li>
-        <li>• Low noise environment</li>
-      </ul>
-    </div>
-
-    <button className="w-full mt-4 bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
-      Schedule Property Visit
-    </button>
-  </div>
-);
 
 const DiscussResultComponent = ({ answers }: { answers: string[] }) => (
   <div className="bg-white rounded-2xl p-4 shadow-lg max-w-md">
@@ -378,11 +81,25 @@ export default function AIAssistantChat() {
   const [currentOptions, setCurrentOptions] = useState<string[]>([]);
   const [allowTextInput, setAllowTextInput] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const lastMessageRef = useRef<HTMLDivElement>(null);
+
+  // const scrollToBottom = () => {
+  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth",block: "start" });
+  // };
+
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  // Get the last message object
+  const lastMsg = messages[messages.length - 1];
 
+  if (lastMsg?.sender === "component" && lastMessageRef.current) {
+    // If it's a component, snap its TOP to the top of the view
+    lastMessageRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  } else {
+    // For normal text/chat, snap to the very bottom
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }
+};
   useEffect(() => {
     scrollToBottom();
   }, [messages, showOptions]);
@@ -401,12 +118,12 @@ export default function AIAssistantChat() {
     setShowOptions(true);
   };
 
-  const getResultComponent = (mode: string, answers: string[]) => {
+  const getResultComponent = (mode: string, answers: string[] ,predictions) => {
     switch (mode) {
       case "properties":
-        return <PropertyResultComponent answers={answers} />;
+        return <PropertyResultComponent answers={answers}  />;
       case "budget":
-        return <BudgetResultComponent answers={answers} />;
+        return <BudgetResultComponent answers={answers}  predictions={predictions} />;
       case "category":
         return <CategoryResultComponent answers={answers} />;
       case "rent":
@@ -421,12 +138,27 @@ export default function AIAssistantChat() {
   const callAPI = async (mode: string, answers: string[]) => {
     setIsProcessing(true);
     
+     console.log(answers)
+      console.log(mode)
     try {
       // Simulated API call - replace with your actual endpoint
+       
+const questions = conversationFlows[mode].map(item => item.question);
+   
+
+      const response = await axios.post( `${BaseURL}/api/ai/genrate`,
+        {mode , answers , questions },
+        {withCredentials:true}
+    ) 
+
+    
+
+    const predictions = response.data.cleanResponse
+
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+       console.log(predictions)
       // Add component message
-      const resultComponent = getResultComponent(mode, answers);
+      const resultComponent = getResultComponent(mode, answers , predictions );
       setMessages((prev) => [...prev, { sender: "component", component: resultComponent }]);
       
     } catch (error) {
@@ -530,7 +262,9 @@ export default function AIAssistantChat() {
             </p>
         <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
           {messages.map((msg: Message, i: number) => (
-            <div key={i} className={`flex ${msg.sender === "user" ? "justify-end" : msg.sender === "component" ? "justify-start" : "justify-start"}`}>
+            <div key={i} 
+            ref={i === messages.length - 1 ? lastMessageRef : null}
+            className={`flex ${msg.sender === "user" ? "justify-end" : msg.sender === "component" ? "justify-start" : "justify-start"}`}>
               {msg.sender === "bot" && (
                 
                 <div className="p-2 h-10 bg-white rounded-2xl flex-shrink-0">
@@ -605,12 +339,12 @@ export default function AIAssistantChat() {
               </div>
             </div>
           )}
-          <div ref={messagesEndRef} />
+          <div ref={messagesEndRef} className="h-20" />
         </div>
 
         {/* Assistant Options Grid */}
         {messages.length === 0 && (
-          <div className="w-full h-full flex flex-col items-center justify-center p-4">
+          <div  className="w-full h-full flex flex-col items-center justify-center p-4">
             <h1 className="font-bold text-3xl md:text-4xl mb-8 text-center">What can I help with?</h1>
             <div className="md:w-[26rem] w-full gap-2 flex flex-wrap items-center justify-center">
               {assistantOptions.map((option) => {
