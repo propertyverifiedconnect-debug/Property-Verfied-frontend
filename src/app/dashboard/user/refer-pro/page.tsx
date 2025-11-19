@@ -10,7 +10,7 @@ function page() {
   return (
     <>
     <Nav/>
-    <div className={` min-h-screen w-full bg-[#CDE4F9] py-20 px-3 ${inter.className}`}>
+    <div className={` min-h-screen w-full bg-prv py-20 px-3 ${inter.className}`}>
            <div className="flex items-center justify-center gap-1 md:gap-3">
          <Link  href={"/dashboard/user"}>
           <Button variant="outline" className="mb-2  rounded-full"><ArrowLeft/></Button>

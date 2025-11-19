@@ -93,7 +93,7 @@ const Page = () => {
   return (
     <>
     <Nav/>
-    <div className="bg-[#C8E2F8]  min-h-screen w-full overflow-hidden  flex flex-col items-center  pt-15 pb-20">
+    <div className="bg-prv  min-h-screen w-full overflow-hidden  flex flex-col items-center  pt-15 pb-20">
       {/* Search Bar */}
       <div className="flex items-center justify-center gap-1 md:gap-3">
          <Link  href={"/dashboard/user"}>

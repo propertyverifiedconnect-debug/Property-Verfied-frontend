@@ -34,7 +34,7 @@ export default function Page(): JSX.Element {
   return (
     <>
       <Nav />
-      <div className="w-full min-h-screen max-w-2xl mx-auto bg-[#CDE4F9] rounded-2xl shadow-md p-4 space-y-4">
+      <div className="w-full min-h-screen max-w-2xl mx-auto bg-prv rounded-2xl shadow-md p-4 space-y-4">
         <div className="flex flex-wrap gap-1 mt-10">
           <div className="flex items-center gap-2 justify-between">
             <Link href={"/dashboard/user"}>

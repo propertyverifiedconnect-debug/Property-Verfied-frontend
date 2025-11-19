@@ -1,5 +1,13 @@
 import { PieChart, TrendingUp } from "lucide-react";
 import {motion} from "framer-motion"
+import PropertyCards from "@/components/shared/property-cards";
+import { Button } from "@/components/ui/button";
+import RecommandationCard from "@/components/shared/recommdationCard";
+
+const property={
+  property_name:"Rajshree"
+  
+}
 
 const BudgetResultComponent = ({ answers ,  predictions }: { answers: string[] }) => (
   <div className="bg-white rounded-2xl p-4 shadow-lg max-w-md">
@@ -71,6 +79,34 @@ const BudgetResultComponent = ({ answers ,  predictions }: { answers: string[] }
       
       className="text-gray-700">💡 <strong>Recommendation:</strong> {predictions?.recommendation}</motion.p>
     </motion.div>
+
+    <div className="min-h-20  rounded-lg flex items-center justify-center flex-col gap-2  mt-2">
+      <h1 className="font-bold" >Recommended Property</h1>
+      {/* <div className="w-full flex h-25 rounded-lg bg-white">
+       <div className="h-full w-30 p-2 rounded-2xl overflow-hidden ">
+          <img className="h-full w-full object-cover rounded-xl" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTta0XsQDICRBsKhhCivnBCRkL3KDsfAc66jg&s" alt="" />
+       </div>
+       <div className="w-full p-2"> 
+              <h1 className="font-bold">Rajshree</h1>
+              <div className="flex gap-6 ">
+              <h1 className="text-sm">Apartment</h1>
+              <h1 className="text-sm">Itwari</h1>
+              </div>
+           
+                <div className="h-3">
+                           ₹400000
+                </div>
+              <Button variant={"selectdashed"} className="h-3 mt-3 rounded text-sm ">Book visit</Button>
+
+              
+
+       </div>
+      </div> */}
+
+       <RecommandationCard/>
+        <RecommandationCard/>
+
+    </div>
   </div>
 );
 

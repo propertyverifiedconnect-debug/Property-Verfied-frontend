@@ -16,7 +16,7 @@ interface prop{
 
 export default function PropertyDashboard() {
   return (
-    <div className="flex flex-col min-h-screen w-full mb-20  bg-[#CDE4F9]">
+    <div className="flex flex-col min-h-screen w-full mb-20  bg-prv">
       {/* Header */}
     
    

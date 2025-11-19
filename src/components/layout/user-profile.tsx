@@ -44,7 +44,7 @@ const UserProfile: React.FC = () => {
 
     return (
         <div
-            className={`${inter.className} text-2xl text-gray-500 flex items-center bg-[#CDE4F9] justify-start flex-col font-bold  h-screen w-full pt-10 `}
+            className={`${inter.className} text-2xl text-gray-500 flex items-center bg-prv justify-start flex-col font-bold  h-screen w-full pt-10 `}
         >
             <div className='h-32 w-full flex flex-col items-center justify-center '>
                 <div className='h-24 w-24 rounded-full bg-white border-2 p-2 overflow-hidden'>

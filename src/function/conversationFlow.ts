@@ -68,7 +68,7 @@ const conversationFlows = {
   rent: [
     {
       question: "Looking for rent options? Which area are you interested in?",
-      options: ["Dwarka", "Baner", "Hinjewadi", "Koramangala", "Other"],
+      options: ["Nagpur", "Mumbai", "Pune", "Nashik", "Other"],
       allowText: true
     },
     {

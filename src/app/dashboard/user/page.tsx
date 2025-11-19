@@ -8,6 +8,7 @@ import MiddlewareLoader from "@/components/shared/middleware-loader";
 import BottomNav from "@/components/shared/bottom-nav";
 import PropertyDashboard from "@/components/layout/user-menu-1";
 import UserProfile from "@/components/layout/user-profile";
+import Order from "@/components/layout/order";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,16 +30,12 @@ export default function Page(): JSX.Element {
     <>
       <Nav />
       <div
-        className={`${inter.className} min-h-screen w-full flex flex-col   bg-[#CDE4F9] pt-12 md:pt-20`}
+        className={`${inter.className} min-h-screen w-full flex flex-col   bg-prv pt-12 md:pt-20`}
       >
         {active === "Home" ? (
           <PropertyDashboard />
         ) : active === "Menu" ? (
-          <div
-            className={`${inter.className} text-2xl text-gray-500 font-bold  h-screen w-full flex items-center justify-center -mt-20`}
-          >
-            <h1>No Order</h1>
-          </div>
+         <Order/>
         ) : (
           <UserProfile/>
         )}

@@ -28,7 +28,7 @@ export default function AdminDashboard() {
   }, [BASE_URL]);
  
   return (
-    <div className={`${inter.className} flex flex-col h-screen bg-[#CDE4F9]`}>
+    <div className={`${inter.className} flex flex-col h-screen bg-prv`}>
       {/* Header */}
     
    
@@ -41,7 +41,7 @@ export default function AdminDashboard() {
      
      <div className="flex items-center justify-center p-2 gap-1 bg-white mb-2 rounded-2xl">
          <button className="bg-white p-2 w-1/2 rounded-2xl border-2 ">Auto</button>
-            <button className=" p-2 w-1/2 rounded-2xl bg-[#CDE4F9]  border-2">Manual</button>
+            <button className=" p-2 w-1/2 rounded-2xl bg-prv  border-2">Manual</button>
      </div>
 
  
@@ -49,13 +49,13 @@ export default function AdminDashboard() {
         <div className="rounded-2xl flex gap-2 p-2 flex-col bg-white  overflow-hidden border-2 mb-4">
             <h1 className= {`${inter.className} font-semibold flex items-center   `}>Pending Request <ChevronRightIcon/> </h1>
             <div className="flex items-center justify-center gap-2 w-full">
-             <div className="h-20 w-1/2 flex items-center justify-center flex-col rounded-2xl bg-[#CDE4F9]">
+             <div className="h-20 w-1/2 flex items-center justify-center flex-col rounded-2xl bg-prv">
                     <h1 className="font-bold text-2xl text-gray-700">3</h1>
                    <h1>
                      User Pending
                     </h1>
              </div>
-           <div className="h-20 w-1/2 flex items-center justify-center flex-col rounded-2xl bg-[#CDE4F9]">
+           <div className="h-20 w-1/2 flex items-center justify-center flex-col rounded-2xl bg-prv">
                    <h1 className="font-bold text-2xl text-gray-700">{Count}</h1>
                    <h1>
                      Partner Pending

@@ -152,12 +152,13 @@ const questions = conversationFlows[mode].map(item => item.question);
     ) 
 
     
+     const predictions = response.data.cleanResponse;
+     
 
-    const predictions = response.data.cleanResponse
-
-      await new Promise(resolve => setTimeout(resolve, 1500));
+     if (!predictions) {
+      throw new Error("No predictions received from API");
+    }   
        console.log(predictions)
-      // Add component message
       const resultComponent = getResultComponent(mode, answers , predictions );
       setMessages((prev) => [...prev, { sender: "component", component: resultComponent }]);
       
@@ -224,7 +225,7 @@ const questions = conversationFlows[mode].map(item => item.question);
 
   return (
     <div className={`${inter.className} h-screen w-full flex items-center justify-center bg-gray-100`}>
-      <div className="flex flex-col bg-[#CDE4F9] text-zinc-700 w-full md:w-[80%] mx-auto h-full sm:h-[600px] md:rounded-3xl overflow-hidden shadow-lg border border-[#123a57]">
+      <div className="flex flex-col bg-prv text-zinc-700 w-full md:w-[80%] mx-auto h-full sm:h-[600px] md:rounded-3xl overflow-hidden shadow-lg border border-[#123a57]">
         {/* Header */}
         <div className="flex items-center gap-2 bg-white px-4 w-full py-1">
           <div className="p-2">
@@ -232,7 +233,7 @@ const questions = conversationFlows[mode].map(item => item.question);
               showOptions ?
             <button 
               onClick={handleReset}
-              className="p-2 bg-[#CDE4F9] border rounded-full hover:bg-[#b5d4f0] transition-colors"
+              className="p-2 bg-prv border rounded-full hover:bg-[#b5d4f0] transition-colors"
             >
               <ArrowLeft color="black" size={20} />
             </button>
@@ -241,7 +242,7 @@ const questions = conversationFlows[mode].map(item => item.question);
             <Link href="/dashboard/user">
             
              <button 
-              className="p-2 bg-[#CDE4F9] border rounded-full hover:bg-[#b5d4f0] transition-colors"
+              className="p-2 bg-prv border rounded-full hover:bg-[#b5d4f0] transition-colors"
             >
               <ArrowLeft color="black" size={20} />
             </button>
