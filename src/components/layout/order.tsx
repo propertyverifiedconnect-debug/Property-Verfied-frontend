@@ -19,6 +19,7 @@ function Order() {
         });
 
         setOrders(response.data.booking);
+        console.log(response.data.booking)
       } catch (error) {
         console.error("something went wrong", error);
       }
@@ -32,9 +33,9 @@ function Order() {
     const text = searchText.toLowerCase();
 
     return (
-      order.approved_property_id.property_name.toLowerCase().includes(text) ||
-      order.approved_property_id.location.toLowerCase().includes(text) ||
-      order.approved_property_id.user_id.name.toLowerCase().includes(text) ||
+      order.property_approved?.property_name.toLowerCase().includes(text) ||
+      order.property_approved.location.toLowerCase().includes(text) ||
+      order.property_approved.user_id.name.toLowerCase().includes(text) ||
       order.status.toLowerCase().includes(text)
     );
   });

@@ -24,7 +24,7 @@ function OrderCard({
     
          
          <img
-           src={Orders.approved_property_id.photos[0]|| ""}
+           src={Orders.property_approved?.photos[0]|| ""}
            className="w-full  h-40 object-cover  rounded-2xl border"
            alt="property"
          /> 
@@ -38,9 +38,9 @@ function OrderCard({
         
         {/* Main Info */}
         <div>
-          <h2 className="text-lg font-semibold text-gray-800">{Orders.approved_property_id
+          <h2 className="text-lg font-semibold text-gray-800">{Orders.property_approved?
 .property_name}</h2>
-          <p className="text-gray-500 text-sm">{Orders.approved_property_id
+          <p className="text-gray-500 text-sm">{Orders.property_approved?
 .location}</p>
 
           
@@ -56,11 +56,11 @@ function OrderCard({
           </p>
 
           <p className="text-gray-700 text-sm mt-1">
-            <span className="font-medium">Price:</span> ₹{Orders.approved_property_id.price}
+            <span className="font-medium">Price:</span> ₹{Orders.property_approved?.price}
           </p>
 
             <p className="text-gray-700 text-sm mt-1">
-            <span className="font-medium">Partner:</span> {Orders.approved_property_id.user_id.name}
+            <span className="font-medium">Partner:</span> {Orders.property_approved?.user_id.name}
           </p>
 
             <p className="text-gray-700 text-sm mt-1">
@@ -73,7 +73,7 @@ function OrderCard({
         </div>
 
         {/* Status */}
-        <Link href={`/dashboard/user/find-property/property-list/proprerty-info/${Orders.approved_property_id.id}`}>
+        <Link href={`/dashboard/user/find-property/property-list/proprerty-info/${Orders.property_approved?.id}`}>
          <Button variant={"selectdashed"} className=" mt-2 w-full " >Visit Property</Button>
         </Link>
 

@@ -22,11 +22,11 @@ type Message = {
   component?: React.ReactNode;
 };
 
-type AssistantMode = "properties" | "budget" | "category" | "rent" | "discuss" | null;
+type AssistantMode = | "budget" | "category" | "rent" | "discuss" | null;
 
 
 const assistantOptions = [
-  { id: "properties", label: "View Properties with AI ", icon: Home },
+  // { id: "properties", label: "View Properties with AI ", icon: Home },
   { id: "budget", label: "Budget Analysis", icon: PieChart },
   { id: "category", label: "People's Category Choice", icon: User },
   { id: "rent", label: "Rent Solutions (Smart Matching)", icon: Building2 },
@@ -35,7 +35,7 @@ const assistantOptions = [
 
 // Result Components
 
-const DiscussResultComponent = ({ answers }: { answers: string[] }) => (
+const DiscussResultComponent = ({ answers, predictions }: { answers: string[] }) => (
   <div className="bg-white rounded-2xl p-4 shadow-lg max-w-md">
     <div className="flex items-center gap-2 mb-4">
       <div className="bg-orange-100 p-2 rounded-full">
@@ -43,26 +43,8 @@ const DiscussResultComponent = ({ answers }: { answers: string[] }) => (
       </div>
       <h3 className="font-bold text-lg">AI Discussion</h3>
     </div>
-    
-    <div className="p-3 bg-gray-50 rounded-lg mb-4">
-      <p className="text-sm text-gray-600">Topic Selected</p>
-      <p className="font-semibold text-gray-800">{answers[0]}</p>
-    </div>
-
-    <div className="space-y-2">
-      <div className="p-3 bg-blue-50 rounded-lg flex items-start gap-2">
-        <span className="text-blue-600 font-bold">✓</span>
-        <p className="text-sm text-gray-700">Property comparisons available</p>
-      </div>
-      <div className="p-3 bg-green-50 rounded-lg flex items-start gap-2">
-        <span className="text-green-600 font-bold">✓</span>
-        <p className="text-sm text-gray-700">Market analysis ready</p>
-      </div>
-      <div className="p-3 bg-purple-50 rounded-lg flex items-start gap-2">
-        <span className="text-purple-600 font-bold">✓</span>
-        <p className="text-sm text-gray-700">Investment advice prepared</p>
-      </div>
-    </div>
+      
+   <h1> {predictions.answer}</h1>
 
     <div className="mt-4 p-3 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg">
       <p className="text-xs text-gray-700">💡 Ask me anything about properties, investments, or area recommendations!</p>
@@ -127,9 +109,9 @@ export default function AIAssistantChat() {
       case "category":
         return <CategoryResultComponent answers={answers}  predictions={predictions} />;
       case "rent":
-        return <RentResultComponent answers={answers} />;
+        return <RentResultComponent answers={answers}  predictions={predictions} />;
       case "discuss":
-        return <DiscussResultComponent answers={answers} />;
+        return <DiscussResultComponent answers={answers} predictions={predictions} />;
       default:
         return null;
     }
@@ -143,7 +125,7 @@ export default function AIAssistantChat() {
     try {
       // Simulated API call - replace with your actual endpoint
        
-const questions = conversationFlows[mode].map(item => item.question);
+   const questions = conversationFlows[mode].map(item => item.question);
    
 
       const response = await axios.post( `${BaseURL}/api/ai/genrate`,
@@ -161,6 +143,11 @@ const questions = conversationFlows[mode].map(item => item.question);
        console.log(predictions)
       const resultComponent = getResultComponent(mode, answers , predictions );
       setMessages((prev) => [...prev, { sender: "component", component: resultComponent }]);
+        if (mode === "discuss") {
+      
+        setAllowTextInput(true);
+        setShowOptions(true);
+      }
       
     } catch (error) {
       console.error("API Error:", error);
@@ -168,9 +155,15 @@ const questions = conversationFlows[mode].map(item => item.question);
       // Fallback: still show component on error
       const resultComponent = getResultComponent(mode, answers);
       setMessages((prev) => [...prev, { sender: "component", component: resultComponent }]);
+       if (mode === "discuss") {
+      
+        setAllowTextInput(true);
+        setShowOptions(true);
+      }
+      
     } finally {
       setIsProcessing(false);
-      setShowOptions(false);
+      // setShowOptions(false);
     }
   };
 
