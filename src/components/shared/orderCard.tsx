@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { CheckCircle } from "lucide-react";
 import Link from "next/link";
+import {motion} from "framer-motion"
 
 function OrderCard({
   Orders,
@@ -12,17 +13,24 @@ function OrderCard({
 
   console.log(Orders)
   return (
-    <div className="w-full max-w-2xl bg-white border rounded-lg shadow-sm p-4 flex flex-col gap-4 cursor-pointer hover:shadow-md transition">
+    <motion.div 
+     initial={{opacity:0}}
+     animate={{opacity:1  }}
+     transition={{duration:0.4}}
+    className="w-full max-w-2xl bg-white border rounded-lg shadow-sm p-4 flex flex-col gap-4 cursor-pointer hover:shadow-md transition">
       
       {/* Left Image */}
-      <div className="relative">
-        <img
-          src={Orders.approved_property_id.photos[0]|| ""}
-          className="w-full h-40 object-cover rounded-md border"
-          alt="property"
-        />
+      <div className="relative rounded-2xl  bg-gray-400 overflow-hidden  ">
+    
+         
+         <img
+           src={Orders.approved_property_id.photos[0]|| ""}
+           className="w-full  h-40 object-cover  rounded-2xl border"
+           alt="property"
+         /> 
+         
 
-      <Badge className=" absolute bottom-2 scale-90 opacity-90"><CheckCircle/> Verified Property</Badge>
+      <Badge className=" absolute bottom-2 z-40 scale-90 opacity-90"><CheckCircle/> Verified Property</Badge>
       </div>
 
       {/* Right Section */}
@@ -75,7 +83,7 @@ function OrderCard({
        
         
       </div>
-    </div>
+    </motion.div>
   );
 }
 

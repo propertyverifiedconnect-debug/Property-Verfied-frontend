@@ -125,7 +125,7 @@ export default function AIAssistantChat() {
       case "budget":
         return <BudgetResultComponent answers={answers}  predictions={predictions} />;
       case "category":
-        return <CategoryResultComponent answers={answers} />;
+        return <CategoryResultComponent answers={answers}  predictions={predictions} />;
       case "rent":
         return <RentResultComponent answers={answers} />;
       case "discuss":
@@ -152,12 +152,12 @@ const questions = conversationFlows[mode].map(item => item.question);
     ) 
 
     
-     const predictions = response.data.cleanResponse;
+     const predictions = response.data.cleanResponse || {};
      
 
-     if (!predictions) {
-      throw new Error("No predictions received from API");
-    }   
+    //  if (!predictions) {
+    //   throw new Error("No predictions received from API");
+    // }   
        console.log(predictions)
       const resultComponent = getResultComponent(mode, answers , predictions );
       setMessages((prev) => [...prev, { sender: "component", component: resultComponent }]);

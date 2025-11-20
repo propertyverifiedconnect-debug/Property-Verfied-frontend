@@ -44,6 +44,11 @@ const conversationFlows = {
     },
   ],
   category: [
+      {
+      question: "Hi! Which area are you searching property in?",
+      options:  ["Nagpur", "Mumbai", "Pune", "Nashik", "Other"],
+      allowText: true
+    },
     {
       question: "Let's find your community match. What's your profession?",
       options: ["Software Engineer", "Business Owner", "Doctor", "Teacher", "Government Employee", "Other"],

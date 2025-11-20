@@ -3,6 +3,7 @@ import inter from "@/lib/font/Inter";
 import OrderCard from "../shared/orderCard";
 import { ChevronRight, Search } from "lucide-react";
 import axios from "axios";
+import { Skeleton } from "../ui/skeleton";
 
 function Order() {
   const [Orders, setOrders] = useState([]);
@@ -70,7 +71,24 @@ function Order() {
               />
             ))
           ) : (
-            <p className="text-gray-500 mt-4">No matching orders found.</p>
+            <>
+            <div className="w-full h-96 max-w-2xl bg-white border rounded-lg shadow-sm p-4 flex flex-col gap-4 cursor-pointer hover:shadow-md transition">
+              
+              <Skeleton className="h-40 w-full"/>
+               <Skeleton className="h-10 w-[60%]"/>
+                <Skeleton className="h-10 w-[50%]"/>
+                 <Skeleton className="h-10 w-[40%]"/>
+
+            </div>
+             <div className="w-full h-70 max-w-2xl bg-white border rounded-lg shadow-sm p-4 flex flex-col gap-4 cursor-pointer hover:shadow-md transition">
+              
+              <Skeleton className="h-40 w-full"/>
+               <Skeleton className="h-10 w-[60%]"/>
+                <Skeleton className="h-10 w-[50%]"/>
+                 <Skeleton className="h-10 w-[40%]"/>
+
+            </div>
+            </>
           )}
         </div>
       </div>

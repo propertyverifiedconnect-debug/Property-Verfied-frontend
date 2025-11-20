@@ -1,3 +1,6 @@
+
+import {motion} from "framer-motion"
+
 function StatusTimeline({ status }) {
   const steps = [
     "pending",
@@ -24,11 +27,15 @@ function StatusTimeline({ status }) {
 
             {/* Line */}
             {index !== steps.length - 1 && (
-              <div
+              <motion.div
+              initial={{width:0}}
+               animate={{width:80}}
+
+              
                 className={`h-1 w-full 
                 ${index < activeIndex ? "bg-green-500" : "bg-gray-300"}
                 `}
-              ></div>
+              ></motion.div>
             )}
           </div>
         ))}
