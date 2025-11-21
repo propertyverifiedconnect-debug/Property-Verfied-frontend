@@ -16,7 +16,7 @@ export default function useRedirectByRole() {
       try {
         // 1️⃣ Check HttpOnly cookie via API
         const cookieRes = await fetch("/api/check-cookie" ,{
-  credentials: "include", // Add this
+         credentials: "include", // Add this
      });
         const { valid } = await cookieRes.json();
         console.log(valid)
