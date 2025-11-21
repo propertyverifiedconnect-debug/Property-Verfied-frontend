@@ -26,11 +26,11 @@ export default function PartnerOnboarding() {
 
   // Example project list (replace this with dynamic data if needed)
   const projectOptions = [
-    "Sunshine Residency",
-    "Green Valley Apartments",
-    "Elite Towers",
-    "Skyline Enclave",
-    "Palm Vista Villas",
+"Anandam",
+"Raunak Heights",
+"Marvel Sangria",
+"GAJLAXMI APARTMENT",
+"Miniland Homes"
   ];
 
   const [formData, setFormData] = useState({

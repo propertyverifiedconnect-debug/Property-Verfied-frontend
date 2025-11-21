@@ -22,13 +22,13 @@ export default function PropertyDashboard() {
    
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 ">
+      <div className="flex flex-col w-full md:items-center md:justify-center overflow-y-auto px-4 py-3 ">
     {/* <h1 className={`text-2xl ${inter.className} font-bold text-gray-600 flex items-center`}>User Dashboard <ChevronRightIcon/></h1> */}
         {/* City Selector */}
         <div className="mb-4">
           <label className="text-sm font-medium mb-1 block">Select City</label>
           <Select>
-            <SelectTrigger className="bg-white w-full">
+            <SelectTrigger className="bg-white w-full md:w-[30rem] ">
               <SelectValue placeholder="Not selected" />
             </SelectTrigger>
             <SelectContent>
@@ -76,7 +76,7 @@ export default function PropertyDashboard() {
 
 function FeatureCard({ icon, label }:prop) {
   return (
-    <div className="flex flex-col items-center justify-center bg-white rounded-2xl shadow-md py-6 hover:scale-105 transition-transform">
+    <div className="flex md:w-80 sm:scale-100   flex-col items-center justify-center bg-white rounded-2xl shadow-md py-6 hover:scale-105 transition-transform">
     <img className="h-10 scale-120" src={`/image/${icon}.png`} alt="" />
       <p className="text-sm font-medium mt-2 text-center">{label}</p>
       {icon == "safe" ? <p className="text-xs text-gray-400" >coming soon</p>:"" }
