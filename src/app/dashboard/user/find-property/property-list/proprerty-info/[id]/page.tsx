@@ -174,6 +174,7 @@ const PropertyDetails: React.FC = () => {
       visitType,
       date: selectedDate,
       timeSlot,
+      partnerId:propertyDetails?.user_id
     };
 
     console.log("Booking Request:", formData);
