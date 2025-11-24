@@ -6,6 +6,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   const cookieStore = await cookies();
+  console.log(cookieStore)
   const token = cookieStore.get("token_user")?.value;
 
   return NextResponse.json(
