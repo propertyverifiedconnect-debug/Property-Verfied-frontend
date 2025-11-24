@@ -15,7 +15,10 @@ export default function useCheckRole() {
     const checkRole = async () => {
       try {
         // 1️⃣ Check HttpOnly cookie via API
-        const cookieRes = await fetch("/api/check-cookie");
+     const cookieRes = await fetch("/api/check-cookie", {
+  method: "GET",
+  credentials: "include",  
+});
         const { valid } = await cookieRes.json();
      
 

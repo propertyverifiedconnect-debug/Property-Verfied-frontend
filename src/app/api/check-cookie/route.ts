@@ -10,6 +10,7 @@ export async function GET() {
     const token = cookieStore.get("token_user")?.value;
 
     // Debug logging (check Vercel function logs)
+    console.log("All cookies:", cookieStore.getAll());
     console.log("token_user:", token ? "exists" : "not found");
 
     return NextResponse.json(
