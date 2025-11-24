@@ -11,7 +11,7 @@ function Order() {
   const [Orders, setOrders] = useState([]);
   const [searchText, setSearchText] = useState("");
   const BASEURL = process.env.NEXT_PUBLIC_API_URL;
-  const loading = useCheckRole() as boolean;
+  
   const [active, setActive] = useState<ActiveTab>("Home");
 
   // 👉 Fetch Orders
@@ -32,9 +32,7 @@ function Order() {
     getOrder();
   }, []); // ❗ fixed dependency
 
-  if (loading) {
-    return <MiddlewareLoader />;
-  }
+
 
   // 👉 FILTER LOGIC
   const filteredOrders = Orders.filter((order) => {
