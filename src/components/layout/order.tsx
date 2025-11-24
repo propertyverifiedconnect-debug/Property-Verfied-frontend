@@ -4,11 +4,15 @@ import OrderCard from "../shared/orderCard";
 import { ChevronRight, Search } from "lucide-react";
 import axios from "axios";
 import { Skeleton } from "../ui/skeleton";
+import useCheckRole from "@/hooks/useCheckToken";
+import MiddlewareLoader from "../shared/middleware-loader";
 
 function Order() {
   const [Orders, setOrders] = useState([]);
   const [searchText, setSearchText] = useState("");
   const BASEURL = process.env.NEXT_PUBLIC_API_URL;
+  const loading = useCheckRole() as boolean;
+  const [active, setActive] = useState<ActiveTab>("Home");
 
   // 👉 Fetch Orders
   useEffect(() => {
@@ -27,6 +31,10 @@ function Order() {
 
     getOrder();
   }, []); // ❗ fixed dependency
+
+  if (loading) {
+    return <MiddlewareLoader />;
+  }
 
   // 👉 FILTER LOGIC
   const filteredOrders = Orders.filter((order) => {
