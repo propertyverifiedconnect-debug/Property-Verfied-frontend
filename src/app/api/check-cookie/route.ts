@@ -6,11 +6,10 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const cookieStore = await cookies();
+    const cookieStore =  cookies();
     const token = cookieStore.get("token_user")?.value;
 
     // Debug logging (check Vercel function logs)
-    console.log("All cookies:", cookieStore.getAll());
     console.log("token_user:", token ? "exists" : "not found");
 
     return NextResponse.json(
