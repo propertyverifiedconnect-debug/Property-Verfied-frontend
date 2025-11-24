@@ -5,7 +5,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const cookieStore =  cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get("token_user")?.value;
 
   return NextResponse.json(
