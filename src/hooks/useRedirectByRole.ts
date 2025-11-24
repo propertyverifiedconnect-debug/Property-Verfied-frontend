@@ -14,19 +14,7 @@ export default function useRedirectByRole() {
 
     const checkRole = async () => {
       try {
-        // 1️⃣ Check HttpOnly cookie via API
-    //     const cookieRes = await fetch("/api/check-cookie" ,{
-    //      credentials: "include", // Add this
-    //  });
-    //     const { valid } = await cookieRes.json();
-    //     console.log(valid)
-
-    //     if (!valid) {
-    //       alert("401 Unauthorized");
-    //       router.replace("/auth/login");
-    //       return;
-    //     }
-
+       
         // 2️⃣ Check localStorage user data
         if (!localStorage.getItem("userdata")) {
           const res = await axios.get(`${BASEURL}/api/user/profile`, {
