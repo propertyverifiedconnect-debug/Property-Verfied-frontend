@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   
-  // Get token from multiple sources (Vercel workaround)
+  // Get token from multiple sources
   const cookieHeader = req.headers.get('cookie') || '';
   const tokenFromHeader = cookieHeader
     .split(';')
@@ -12,7 +12,12 @@ export function middleware(req: NextRequest) {
     ?.split('=')[1];
     
   const tokenFromCookies = req.cookies.get("token_user")?.value;
-  const token = tokenFromCookies || tokenFromHeader;
+  
+  // Also check Authorization header as fallback
+  const authHeader = req.headers.get('authorization');
+  const tokenFromAuth = authHeader?.replace('Bearer ', '');
+  
+  const token = tokenFromCookies || tokenFromHeader || tokenFromAuth;
 
   // Debug logs (remove after testing)
   console.log("🔍 Middleware triggered");
