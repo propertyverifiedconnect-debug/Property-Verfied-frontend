@@ -49,70 +49,43 @@ export default function LoginInForm() {
     }));
   };
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const newErrors: FormErrors = {};
+    // Simple validation
+  
+    const newErrors: FormErrors = {};
 
-  if (!formData.email) newErrors.email = "Email is required";
-  if (!formData.password) newErrors.password = "Password is required";
+    if (!formData.email) newErrors.email = "Email is required";
+    if (!formData.password) newErrors.password = "Password is required";
 
-  setErrors(newErrors);
+    setErrors(newErrors);
 
-  if (Object.keys(newErrors).length === 0) {
     setloading(true);
-    
-    try {
-      console.log('🚀 Attempting login...');
-      
-      const res = await axios.post(
-        `${BASEURL}/api/auth/login`,
-        { 
-          email: formData.email, 
-          password: formData.password, 
-          role: formData.role 
-        },
-        { 
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json'
-          }
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        const res = await axios.post(
+          `${BASEURL}/api/auth/login`,
+          { email: formData.email, password: formData.password , role:formData.role },
+          { withCredentials: true }
+        );
+        alert(res.data.message);
+        router.push("/dashboard/user");
+      } catch (err: unknown) {
+        if (axios.isAxiosError(err)) {
+          // AxiosError: may have response.data.error
+          alert(err.response?.data?.error ?? err.message);
+                     setloading(false);
+        } else if (err instanceof Error) {
+          alert(err.message);
+                     setloading(false);
+        } else {
+          alert(String(err));
+                     setloading(false);
         }
-      );
-
-      console.log('✅ Login response:', res.data);
-      console.log('🍪 Response headers:', res.headers);
-      
-      // Check cookies in browser
-      console.log('🍪 All cookies:', document.cookie);
-      
-      alert(res.data.message);
-      
-      // Wait a moment for cookie to be set
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // Use window.location for hard navigation (NOT router.push!)
-      console.log('🔄 Redirecting with hard navigation...');
-      window.location.href = "/dashboard/user";
-      
-    } catch (err: unknown) {
-      setloading(false);
-      
-      if (axios.isAxiosError(err)) {
-        console.error('❌ Login error:', err.response?.data);
-        alert(err.response?.data?.error ?? err.message);
-      } else if (err instanceof Error) {
-        console.error('❌ Error:', err.message);
-        alert(err.message);
-      } else {
-        console.error('❌ Unknown error:', err);
-        alert(String(err));
       }
     }
-  } else {
-    setloading(false);
-  }
-};
+  };
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md p-6 w-[95%] md:w-[30rem] bg-white rounded-lg shadow-md">
