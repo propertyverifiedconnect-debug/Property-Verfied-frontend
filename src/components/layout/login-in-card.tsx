@@ -67,7 +67,12 @@ export default function LoginInForm() {
         const res = await axios.post(
           `${BASEURL}/api/auth/login`,
           { email: formData.email, password: formData.password , role:formData.role },
-          { withCredentials: true }
+          { withCredentials: true ,
+            
+            headers: {
+            'Content-Type': 'application/json'
+          } }
+          
         );
         alert(res.data.message);
         router.push("/dashboard/user");
