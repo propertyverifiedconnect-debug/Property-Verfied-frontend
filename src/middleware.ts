@@ -1,22 +1,20 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import Cookies from "js-cookie";
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   
   // ✅ Read ONLY the client-side cookies (for middleware)
   const clientTokenUser = req.cookies.get("client_token_user")?.value;
-  const clientTokenAdmin = req.cookies.get("client_token_admin")?.value;
-  const clientTokenPartner = req.cookies.get("client_token_partner")?.value;
+ 
   
-  const hasToken = clientTokenUser || clientTokenAdmin || clientTokenPartner;
+  const hasToken = clientTokenUser 
 
   // Debug logs
   console.log("🔍 Middleware Check:", {
     path: pathname,
     hasClientTokenUser: !!clientTokenUser,
-    hasClientTokenAdmin: !!clientTokenAdmin,
-    hasClientTokenPartner: !!clientTokenPartner,
     result: !!hasToken
   });
 

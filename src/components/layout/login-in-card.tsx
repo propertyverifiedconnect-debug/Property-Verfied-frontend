@@ -9,6 +9,7 @@ import GoogleIcon from "../../../public/icons/googleicon";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
+import Cookies from "js-cookie";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -74,6 +75,13 @@ export default function LoginInForm() {
           } }
           
         );
+
+        Cookies.set("client_token_user",res.data.token, {
+  expires: 7,        // expires in 7 days
+  secure: true,      // only over HTTPS
+  sameSite: "strict"
+});
+
         alert(res.data.message);
         router.push("/dashboard/user");
       } catch (err: unknown) {
