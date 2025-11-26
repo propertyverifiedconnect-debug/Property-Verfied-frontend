@@ -6,7 +6,7 @@ export function middleware(req: NextRequest) {
 
   console.log("🔵 Incoming Request:", pathname);
 
-  // Read ONLY client-side cookies (middleware cannot read httpOnly cookies)
+  // Read client-side cookie
   const clientTokenUser = req.cookies.get("client_token_user")?.value;
 
   console.log("🔍 Cookies in middleware:", {
@@ -14,27 +14,36 @@ export function middleware(req: NextRequest) {
     tokenValue: clientTokenUser || "❌ No token"
   });
 
-  // Public routes
-  const isPublicRoute =
-    pathname.startsWith("/auth") ||
-    pathname.startsWith("/_next") ||
-    pathname.startsWith("/api") ||
-    pathname === "/favicon.ico" ||
-    pathname === "/";
+  // -------------------------------
+  // PUBLIC ROUTES
+  // -------------------------------
+  const PUBLIC_ROUTES = [
+    "/",           // home page
+    "/favicon.ico",
+  ];
+
+  const isPublic = 
+    PUBLIC_ROUTES.includes(pathname) ||
+    pathname.startsWith("/auth") ||     // allow /auth and /auth/login
+    pathname.startsWith("/_next") ||    // nextjs internals
+    pathname.startsWith("/api") ||      // allow all API routes
+    pathname.startsWith("/static");     // optional
 
   console.log("📌 Route check:", {
     pathname,
-    isPublicRoute,
+    isPublic,
   });
 
-  if (isPublicRoute) {
-    console.log("🟢 Public route → allowed");
+  if (isPublic) {
+    console.log("🟢 PUBLIC → allowed");
     return NextResponse.next();
   }
 
-  // Protected route: needs client token
+  // -------------------------------
+  // PROTECTED ROUTES
+  // -------------------------------
   if (!clientTokenUser) {
-    console.log("❌ No client_token_user → redirect to login");
+    console.log("❌ NO TOKEN → redirecting to /auth/login");
 
     const loginUrl = new URL("/auth/login", req.url);
     loginUrl.searchParams.set("redirect", pathname);
@@ -42,12 +51,13 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // Token exists
-  console.log("🟩 Token found → access granted");
+  console.log("🟩 TOKEN FOUND → access granted");
   return NextResponse.next();
 }
 
-// Apply to dashboard only
+// ✅ Run middleware for all routes except static assets
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(png|jpg|jpeg|gif|svg)).*)",
+  ],
 };
