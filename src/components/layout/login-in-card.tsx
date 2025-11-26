@@ -77,7 +77,7 @@ export default function LoginInForm() {
         );
 
         Cookies.set("client_token_user",res.data.token, {
-  expires: 7,        // expires in 7 days
+  expires: 1,        // expires in 7 days
   secure: true,      // only over HTTPS
   sameSite: "strict"
 });
